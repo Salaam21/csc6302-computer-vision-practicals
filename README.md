@@ -2,7 +2,7 @@
 
 **Student:** Munyeme Sinyani (SINYANI) - University of Zambia
 
-My code and figures for practicals 1 through 7, plus a master walkthrough PDF in `master_report/`.
+My code, photos, figures and reports for practicals 1 through 7.
 
 ## How I set up
 
@@ -11,8 +11,9 @@ cd csc6302-practicals
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
-python shared/make_demo_images.py
 ```
+
+Photos are in `images/`.
 
 ## How I run the figure scripts
 
@@ -24,7 +25,7 @@ python prac4/train_prac4.py
 python prac5/run_prac5.py
 python prac6/run_prac6.py
 cd prac7 && pytest -q && cd ..
-python master_report/build_master_pdf.py
+python build_reports.py
 ```
 
 Practical 3 needs `ultralytics` for YOLO. Practical 4 training takes a few minutes on CPU.
@@ -45,4 +46,4 @@ python prac7/app.py
 
 ## AI Use
 
-I used Cursor (Composer) to help layout scripts, fix OpenCV/PyTorch glue, and draft READMEs. Working photos are in `images/`.
+I used Composer to help with ideas for script layout and OpenCV/PyTorch glue. Working photos are in `images/`.

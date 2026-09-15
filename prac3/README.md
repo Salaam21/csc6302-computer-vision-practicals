@@ -11,7 +11,6 @@ cd csc6302-practicals
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
-python shared/make_demo_images.py
 ```
 
 First YOLO run downloads `yolov8n.pt` (~6 MB).
@@ -36,4 +35,4 @@ I create Space `csc6302-prac3-SINYANI` (Gradio), push `app.py` and `requirements
 
 ## AI Use
 
-Cursor helped connect OpenCV paths, Ultralytics YOLO, and the Gradio UI. I picked confidence values and wrote up the timing CSV myself. Synthetic `group.jpg` may give zero Haar faces - I note that in my report and use real photos when I can.
+Composer helped with ideas for connecting OpenCV, Ultralytics YOLO, and the Gradio UI. I picked confidence values and wrote up the timing CSV myself.

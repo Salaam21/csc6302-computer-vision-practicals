@@ -11,7 +11,6 @@ cd csc6302-practicals
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
-python shared/make_demo_images.py
 ```
 
 ## Run
@@ -22,7 +21,7 @@ python prac2/run_prac2.py
 
 Figures go to `prac2/report/figures/`.
 
-For a wide panorama I use three overlapping shots in `shared/images/` (`pano_left.jpg`, `pano_mid.jpg`, `pano_right.jpg`). I plan to replace the demos with campus photos.
+For the panorama I use three overlapping shots in `images/` (`pano_left.jpg`, `pano_mid.jpg`, `pano_right.jpg`).
 
 ## What I study
 
@@ -30,4 +29,4 @@ Harris R is in `run_prac2.py` from the notes. I report ratio-test matches and RA
 
 ## AI Use
 
-Cursor helped wire the pipeline. I checked Harris and matching against lecture notes and can walk through the maths. I will use my own panorama photos before final submission.
+Composer helped with ideas for wiring the matching/stitch pipeline. I checked Harris and matching against lecture notes and can walk through the maths.

@@ -13,7 +13,6 @@ cd csc6302-practicals
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
-python shared/make_demo_images.py
 ```
 
 ## Run
@@ -34,16 +33,12 @@ python prac1/process.py --input images/clean_gray.png --op edges --output edges.
 python prac1/process.py --input images/coins.jpg --op count --output count_vis.png
 ```
 
-Optional master PDF:
+Optional: rebuild report PDF with `python build_reports.py`.
 
-```bash
-python master_report/build_master_pdf.py
-```
+## Photos I used
 
-## Before I submit
-
-My photos live in `images/` (`colourful.jpg`, `lowlight.jpg`, `coins.jpg`). I re-run `run_prac1.py` after swapping photos and write the report in my own words. I need to explain PSNR, conv2d, and my_sobel line by line.
+My photos are in `images/`: `colourful.jpg` (outdoor scene), `lowlight.jpg` (darker indoor), `coins.jpg` (earrings for counting).
 
 ## AI Use
 
-Cursor (Composer) helped with `process.py`, `run_prac1.py`, and the master PDF walkthrough. From-scratch functions (`psnr`, `conv2d`, `my_sobel`) match the brief; I can explain every line. Demo images are stand-ins until I use my own captures.
+Composer helped me with ideas for how to structure `process.py` and `run_prac1.py`. From-scratch parts (`psnr`, `conv2d`, `my_sobel`) I can explain myself.

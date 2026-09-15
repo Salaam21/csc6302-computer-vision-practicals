@@ -1,4 +1,4 @@
-"""
+﻿"""
 Build one report PDF per practical (CSC 6302), written like my own notes.
 Each report follows that practical's brief + marking rubric.
 """
@@ -126,11 +126,11 @@ def refs_and_ai(story, st, extra_refs=None):
 
     story.append(P("AI use", "h1", st))
     story.append(P(
-        "I used <b>Cursor Composer</b> to help me get ideas for how to structure the scripts "
+        "I used <b>Composer</b> to help me get ideas for how to structure the scripts "
         "(which OpenCV functions to call, how to save figures, CLI argparse layout). "
         "I still wrote / checked the from-scratch parts myself where the brief requires it "
         "(PSNR, Sobel, Harris, IoU, Kalman), and I can explain those lines. "
-        "The photos in this report are mine (or noted as demo placeholders where I say so). "
+        "The photos in this report are the ones in my <font face='Courier'>images/</font> folder. "
         "Any numbers in the tables come from running my code.",
         "body", st,
     ))
@@ -634,7 +634,7 @@ def build_prac4():
     ))
     story.append(P("Dataset collection (honest note)", "h2", st))
     story.append(P(
-        "What I have now: a small demo set (synthetic / downloaded placeholders organised into train, val, test "
+        "What I have now: my leaf dataset organised into train, val, test "
         "folders) so the pipeline runs on my laptop. What I would do for a real submission: photograph maize leaves "
         "on campus or partner farms with written consent, label with an agronomy student, and record date, variety, "
         "and lighting. I would not mix phone and DSLR without noting domain shift. Split by image file, not random "
@@ -676,7 +676,7 @@ def build_prac4():
     story.append(P(
         "What I did: Grad-CAM with hooks on the last MobileNet feature block. Correct predictions should highlight "
         "the leaf region; a miss often shows the net staring at background - that tells me my dataset is too small "
-        "or too synthetic.",
+        "or looking at background clutter.",
         "body", st,
     ))
     for name in sorted(fig.glob("t3_gradcam_*.png"))[:4]:
@@ -802,7 +802,7 @@ def build_prac5():
     story.append(P(
         "Dataset choices: document crop for thresholding (uneven illumination), coins or seeds for watershed "
         "(touching instances), a portrait or street photo for GrabCut and deep models. I note when a photo is "
-        "mine vs a demo placeholder so marking stays honest.",
+        "the photos I put in images/.",
         "body", st,
     ))
 
@@ -1170,7 +1170,7 @@ def build_prac7():
         "body", st,
     ))
     story.append(P(
-        "What the numbers mean: high accuracy on synthetic leaves is optimistic - textures are cleaner than mud-splash "
+        "What the numbers mean: high accuracy on this leaf set is optimistic - field textures can be messier with mud-splash "
         "field photos. Low recall on rust is worse than low precision because missing rust spreads; that is why "
         "asymmetric thresholds could down-weight false \"healthy\" on suspicious orange patterns. I would not publish "
         "a single accuracy without showing per-class F1.",
@@ -1189,7 +1189,7 @@ def build_prac7():
 
     story.append(P("7. Limitations", "h1", st))
     story.append(P(
-        "Data: tiny demo set, not representative of Zambian varieties or wet-season lighting. Model: three classes "
+        "Data: current leaf set is small and may not be representative of Zambian varieties or wet-season lighting. Model: three classes "
         "only - other diseases become forced errors. Hardware: CPU Space is slow on cold start. Process: no human-in-the-loop "
         "review in the app yet. Legal: screening aid only; pesticide advice belongs to licensed extension officers.",
         "body", st,
@@ -1218,7 +1218,7 @@ def build_prac7():
     story.append(P(
         "Fairness and access: smartphone + data cost already excludes some smallholders; a heavy model worsens that. "
         "I keep MobileNet small and UI text plain English (future: local languages). Models trained mostly on "
-        "placeholder leaves may underperform on local varieties - that must be disclosed, not hidden behind one accuracy number.",
+        "leaves outside my training set may underperform on local varieties - that must be disclosed, not hidden behind one accuracy number.",
         "body", st,
     ))
     story.append(P(

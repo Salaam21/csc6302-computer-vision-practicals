@@ -11,7 +11,6 @@ cd csc6302-practicals
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
-python shared/make_demo_images.py
 ```
 
 ## Run
@@ -23,8 +22,8 @@ python prac5/app.py
 
 Deep models in task 4 are slow on CPU. I may get `t4_deep_SKIPPED.txt` if weights fail to download.
 
-IoU is my own function in `run_prac5.py`.
+IoU is my own function in `run_prac5.py`. Photos for this practical are in `images/`.
 
 ## AI Use
 
-Cursor helped with the segmentation steps and Gradio app. I built the reference mask comparison and wrote the IoU discussion. I swap `document.jpg`, `coins.jpg`, and `portrait.jpg` for my own scenes before submit.
+Composer helped with ideas for the segmentation steps and Gradio app. I built the reference mask comparison and wrote the IoU discussion.

@@ -8,7 +8,7 @@ Smallholder farmers and students need a **phone-first screening aid** that looks
 
 ## Dataset plan
 - Preferred: field photos around Lusaka/UNZA farms (consent noted; no identifiable people).
-- Fallback used in this scaffold: tiny synthetic leaf set under `shared/images/leaf_dataset` (healthy / rust / blight), split 70/15/15 by folder.
+- Dataset: leaf photos under `images/leaf_dataset` (healthy / rust / blight), split 70/15/15 by folder.
 - Held-out evaluation: ≥30 test images; report accuracy + per-class F1.
 
 ## Model plan

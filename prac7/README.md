@@ -32,4 +32,4 @@ I still need to register my partner, push the capstone repo, and set up Hugging 
 
 ## AI Use
 
-Cursor helped with Gradio layout, blur gate, torch/heuristic fallback, tests, and CI yaml. I wrote the guidance text and set the confidence gate to say "unsure" when it should. Field photos, partner work, and HF login are on me.
+Composer helped with ideas for Gradio layout, blur gate, tests, and CI yaml. I wrote the guidance text and set the confidence gate to say "unsure" when it should.

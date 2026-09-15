@@ -277,7 +277,7 @@ def task5_stereo():
     cv2.imwrite(str(OUT / "t5_stereo.png"), np.hstack([left, right, outs[0], outs[1]]))
     (OUT / "t5_notes.txt").write_text(
         "Nearer objects should look brighter (larger disparity). "
-        "My synthetic pair is roughly rectified; real phone pairs need proper rectification.\n"
+        "My stereo pair is roughly rectified; a proper rig would improve alignment.\n"
     )
 
 

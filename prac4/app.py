@@ -48,7 +48,7 @@ demo = gr.Interface(
     inputs=gr.Image(type="pil", label="Leaf photo"),
     outputs=gr.Label(num_top_classes=3),
     title="CSC 6302 Practical 4 - leaf triage",
-    description="Uses my fine-tuned MobileNet on the small leaf_dataset in shared/images.",
+    description="Uses my fine-tuned MobileNet on the leaf_dataset in images/.",
 )
 
 if __name__ == "__main__":

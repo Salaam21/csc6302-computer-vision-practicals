@@ -12,8 +12,8 @@ prac4/   Deep learning + transfer
 prac5/   Segmentation
 prac6/   Motion, tracking, AR
 prac7/   Capstone
-shared/  demo images
-master_report/  walkthrough PDF builder
+images/  my photos and datasets
+master_report/  optional walkthrough PDF builder
 ```
 
 See root README.md for how I run things.

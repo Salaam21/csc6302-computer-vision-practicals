@@ -18,7 +18,7 @@ GUIDANCE = {
     "blight": "Possible blight pattern. Do not treat this as a diagnosis - get a field extension officer to confirm.",
 }
 DISCLAIMER = (
-    "NOT FOR REAL FARM DECISIONS. This is a student demo trained on a tiny synthetic set. "
+    "NOT FOR REAL FARM DECISIONS. This is a student coursework for CSC 6302. "
     "Wrong advice can waste money or miss a real outbreak."
 )
 
@@ -128,7 +128,7 @@ def build_demo():
 
     demo = gr.Blocks(title="CSC6302 Capstone - Maize leaf triage")
     with demo:
-        gr.Markdown("# Maize leaf disease triage (student demo)")
+        gr.Markdown("# Maize leaf disease triage")
         gr.Markdown(DISCLAIMER)
         with gr.Row():
             inp = gr.Image(type="pil", label="Upload leaf photo")

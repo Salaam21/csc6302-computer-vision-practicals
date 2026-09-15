@@ -48,7 +48,7 @@ demo = gr.Interface(
         gr.Slider(0.05, 0.95, value=0.25, label="confidence"),
     ],
     outputs=gr.Image(type="numpy", label="Annotated"),
-    title="CSC 6302 Practical 3 - detection demo",
+    title="CSC 6302 Practical 3 - object detection",
     description="Haar for faces, YOLO for general objects. Confidence slider is YOLO only.",
 )
 

@@ -223,10 +223,10 @@ def section_how_to_use(styles: dict) -> list:
     story += bullets(
         [
             "Create a venv and <font face='Courier'>pip install -r requirements.txt</font>.",
-            "Run <font face='Courier'>python shared/make_demo_images.py</font> once (synthetic stand-ins).",
+            "Run <font face='Courier'># photos already in images/</font> once (my photos in images/).",
             "Run each <font face='Courier'>pracN/run_pracN.py</font> (or <font face='Courier'>train_prac4.py</font>) to fill <font face='Courier'>pracN/report/figures/</font>.",
             "Open the PNGs while reading the matching section below — the pictures are the proof.",
-            "Replace demo images with your own phone photos before final submission.",
+            "Photos live in images/.",
             "Re-run this script to refresh the master PDF after new figures exist.",
         ],
         styles,
@@ -272,7 +272,7 @@ def section_general_instructions(styles: dict) -> list:
     story.append(P("AI use — declare honestly", "h2", styles))
     story.append(
         P(
-            "I used Cursor (Composer) to scaffold pipelines, debug OpenCV/PyTorch glue, and draft this "
+            "I used Composer to scaffold pipelines, debug OpenCV/PyTorch glue, and draft this "
             "walkthrough. That is allowed only if I declare it and still understand the work. The "
             "intellectual core — problem framing, parameter choices, what the figures prove — must be mine. "
             "Copy-pasting AI text into the marked report without acknowledgement is academic dishonesty.",
@@ -367,7 +367,7 @@ PRACTICALS = {
             "Morphology pipeline with defensible object count.",
             "CLI runs all ops; report explains failures (halos, broken edges).",
         ],
-        "run_cmd": "python shared/make_demo_images.py\npython prac1/run_prac1.py\n# CLI examples:\npython prac1/process.py --input shared/images/colourful.jpg --op pick --output out.png\npython prac1/process.py --input shared/images/coins.jpg --op count --output count_vis.png",
+        "run_cmd": "# photos already in images/\npython prac1/run_prac1.py\n# CLI examples:\npython prac1/process.py --input images/colourful.jpg --op pick --output out.png\npython prac1/process.py --input images/coins.jpg --op count --output count_vis.png",
         "figures": [
             "t1_hsv_channels.png, t1_lab_channels.png, t1_picker.png — colour space intuition.",
             "t2_noise.png, t2_restored.png, t2_psnr.csv — denoising evidence.",
@@ -672,7 +672,7 @@ def section_capstone_proposal(styles: dict) -> list:
     story += bullets(
         [
             "Preferred: real field photos around Lusaka / UNZA farms — consent, no identifiable people.",
-            "Scaffold fallback: tiny synthetic set under <font face='Courier'>shared/images/leaf_dataset</font> (70/15/15 split).",
+            "Scaffold fallback: tiny synthetic set under <font face='Courier'>images/leaf_dataset</font> (70/15/15 split).",
             "Evaluation: ≥30 held-out test images; report accuracy and per-class F1.",
         ],
         styles,
@@ -731,7 +731,7 @@ def section_checklist(styles: dict) -> list:
         ),
     ]
     items = [
-        "Replace every synthetic demo image with my own phone photos (colour scene, coins, panorama pair, group shot, document, portrait, motion clip, stereo pair, leaf photos).",
+        "Confirm photos in images/ cover each task (colour scene, coins, panorama pair, group shot, document, portrait, motion clip, stereo pair, leaf photos).",
         "Re-run all figure scripts on my images; rewrite report paragraphs so they describe what I actually see.",
         "Colab GPU run for CIFAR-10 (or full leaf dataset) with enough epochs — CPU demo numbers alone are weak evidence.",
         "Create Hugging Face Spaces for Prac 3/4/7 (and any other required N); set HF_TOKEN in GitHub Actions secrets for deploy.",
