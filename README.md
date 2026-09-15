@@ -45,4 +45,4 @@ python prac7/app.py
 
 ## AI Use
 
-I used Cursor (Composer) to help layout scripts, fix OpenCV/PyTorch glue, and draft READMEs. From-scratch parts (PSNR, Sobel, Harris, IoU, Kalman update) follow the brief and I can explain them in a viva. Demo images in `shared/images/` are synthetic until I swap in my own phone photos.
+I used Cursor (Composer) to help layout scripts, fix OpenCV/PyTorch glue, and draft READMEs. Demo images in `shared/images/`.
