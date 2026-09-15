@@ -1,0 +1,2 @@
+same_view=1.0000
+scaled_view=0.3284

@@ -1,0 +1,17 @@
+[
+  {
+    "method": "scratch_TinyCNN",
+    "test_acc": 1.0,
+    "seconds": 11.688802599965129
+  },
+  {
+    "method": "transfer_frozen",
+    "test_acc": 0.7037037037037037,
+    "seconds": 4.454119700007141
+  },
+  {
+    "method": "transfer_finetuned",
+    "test_acc": 1.0,
+    "seconds": 3.3597463000332937
+  }
+]

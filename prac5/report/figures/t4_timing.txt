@@ -1,0 +1,2 @@
+deeplab_ms=871.9
+maskrcnn_ms=4703.5

@@ -1,0 +1,1 @@
+Nearer objects should look brighter (larger disparity). Our synthetic pair is roughly rectified; real phone pairs need proper rectification.

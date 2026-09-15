@@ -1,0 +1,7 @@
+detector,transform,repeatability_pct
+ORB,rot30,47.78
+ORB,rot90,61.50
+ORB,scale05,3.59
+SIFT,rot30,44.25
+SIFT,rot90,76.31
+SIFT,scale05,9.76

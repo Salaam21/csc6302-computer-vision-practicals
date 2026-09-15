@@ -1,0 +1,1 @@
+q=5e-2 r=8.0  (higher r = trust detector less)

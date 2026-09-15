@@ -1,0 +1,2 @@
+object_count=6
+structuring_element=5x5 ellipse
