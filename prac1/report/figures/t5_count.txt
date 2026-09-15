@@ -1,2 +1,3 @@
-object_count=6
-structuring_element=5x5 ellipse
+object_count=41
+structuring_element=3x3 ellipse
+note=earrings on white card; area filter drops text speckles

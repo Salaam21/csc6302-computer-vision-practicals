@@ -29,9 +29,9 @@ Output folder: `prac1/report/figures/`.
 CLI on `process.py`:
 
 ```bash
-python prac1/process.py --input shared/images/colourful.jpg --op pick --output out.png
-python prac1/process.py --input shared/images/clean_gray.png --op edges --output edges.png
-python prac1/process.py --input shared/images/coins.jpg --op count --output count_vis.png
+python prac1/process.py --input images/colourful.jpg --op pick --output out.png
+python prac1/process.py --input images/clean_gray.png --op edges --output edges.png
+python prac1/process.py --input images/coins.jpg --op count --output count_vis.png
 ```
 
 Optional master PDF:
@@ -42,7 +42,7 @@ python master_report/build_master_pdf.py
 
 ## Before I submit
 
-I replace demo images in `shared/images/` with my own photos, re-run `run_prac1.py`, and write the report in my own words. I need to explain PSNR, conv2d, and my_sobel line by line.
+My photos live in `images/` (`colourful.jpg`, `lowlight.jpg`, `coins.jpg`). I re-run `run_prac1.py` after swapping photos and write the report in my own words. I need to explain PSNR, conv2d, and my_sobel line by line.
 
 ## AI Use
 

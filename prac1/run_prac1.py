@@ -12,7 +12,7 @@ import numpy as np
 from process import my_sobel, op_count, op_pick, op_sharpen, psnr
 
 ROOT = Path(__file__).resolve().parents[1]
-IMG = ROOT / "shared" / "images"
+IMG = ROOT / "images"
 OUT = Path(__file__).resolve().parent / "report" / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -156,17 +156,24 @@ def task5_morph():
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
     _, mask = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
-    # 5x5 ellipse — big enough to kill speckle, small enough to keep coins separate
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+    # small ellipse - earrings are small, big kernel would glue them together
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
     eroded = cv2.erode(mask, kernel, iterations=1)
     dilated = cv2.dilate(mask, kernel, iterations=1)
     opened = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel, iterations=1)
     closed = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, kernel, iterations=2)
 
-    n, _ = cv2.connectedComponents(closed)
-    count = n - 1
+    # count with size filter (same idea as process.op_count)
+    n, labels, stats, _ = cv2.connectedComponentsWithStats(closed)
+    h, w = gray.shape
+    min_a = (h * w) * 0.0003
+    max_a = (h * w) * 0.02
+    count = sum(1 for i in range(1, n) if min_a <= stats[i, cv2.CC_STAT_AREA] <= max_a)
+
     (OUT / "t5_count.txt").write_text(
-        f"object_count={count}\nstructuring_element=5x5 ellipse\n", encoding="utf-8"
+        f"object_count={count}\nstructuring_element=3x3 ellipse\n"
+        "note=earrings on white card; area filter drops text speckles\n",
+        encoding="utf-8",
     )
     save_row(
         [mask, eroded, dilated, opened, closed],

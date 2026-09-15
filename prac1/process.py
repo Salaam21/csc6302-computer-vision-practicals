@@ -51,12 +51,12 @@ def my_sobel(gray):
 
 
 def op_pick(img_bgr):
-    # pick a strong red object using HSV (easier than RGB for colour)
+    # pick the lime-green bike (high saturation so plain grass is less included)
     hsv = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2HSV)
-    # red wraps around hue 0, so two ranges
-    mask1 = cv2.inRange(hsv, (0, 80, 60), (12, 255, 255))
-    mask2 = cv2.inRange(hsv, (160, 80, 60), (180, 255, 255))
-    mask = cv2.bitwise_or(mask1, mask2)
+    mask = cv2.inRange(hsv, (40, 110, 90), (85, 255, 255))
+    # clean small speckles
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel, iterations=1)
     return cv2.bitwise_and(img_bgr, img_bgr, mask=mask)
 
 
@@ -82,16 +82,27 @@ def op_edges(img_bgr):
 
 
 def op_count(img_bgr):
-    # threshold -> clean with morphology -> count blobs
+    # earrings on a white card: gold bits are darker than the card
     gray = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
     _, mask = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
     cleaned = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel, iterations=1)
     cleaned = cv2.morphologyEx(cleaned, cv2.MORPH_CLOSE, kernel, iterations=2)
-    n, _ = cv2.connectedComponents(cleaned)
-    count = n - 1  # label 0 is background
+
+    n, labels, stats, _ = cv2.connectedComponentsWithStats(cleaned)
+    # drop background + tiny text speckles + huge card blobs
+    h, w = gray.shape
+    min_a = (h * w) * 0.0003
+    max_a = (h * w) * 0.02
+    count = 0
     vis = cv2.cvtColor(cleaned, cv2.COLOR_GRAY2BGR)
+    for i in range(1, n):
+        area = stats[i, cv2.CC_STAT_AREA]
+        if min_a <= area <= max_a:
+            count += 1
+            x, y, bw, bh = stats[i, cv2.CC_STAT_LEFT:cv2.CC_STAT_LEFT + 4]
+            cv2.rectangle(vis, (x, y), (x + bw, y + bh), (0, 255, 0), 1)
     return vis, count
 
 

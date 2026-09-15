@@ -45,4 +45,4 @@ python prac7/app.py
 
 ## AI Use
 
-I used Cursor (Composer) to help layout scripts, fix OpenCV/PyTorch glue, and draft READMEs. Demo images in `shared/images/`.
+I used Cursor (Composer) to help layout scripts, fix OpenCV/PyTorch glue, and draft READMEs. Working photos are in `images/`.

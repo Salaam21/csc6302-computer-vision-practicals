@@ -26,3 +26,8 @@ Thumbs.db
 *.avi
 out.png
 edges.png
+images/_pick_test.png
+
+# huge raw / phone originals (resized working copies are enough)
+*.dng
+images/401417.jpg

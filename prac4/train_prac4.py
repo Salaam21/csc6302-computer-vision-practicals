@@ -15,7 +15,7 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, models, transforms
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "shared" / "images" / "leaf_dataset"
+DATA = ROOT / "images" / "leaf_dataset"
 OUT = Path(__file__).resolve().parent / "report" / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
