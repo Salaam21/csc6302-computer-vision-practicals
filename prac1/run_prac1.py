@@ -1,6 +1,4 @@
-"""
-Run Practical 1 tasks and save figures for my report.
-"""
+
 
 import csv
 from pathlib import Path

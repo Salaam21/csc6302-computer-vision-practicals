@@ -4,7 +4,7 @@ CSC 6302 Practical 1 — Seeing Like a Machine
 A computer does not see a picture. It sees a grid of numbers.
 This CLI just loads an image, changes those numbers, and saves the result.
 
-From-scratch bits (brief says I must write these myself):
+
 - psnr
 - my_sobel (+ my own conv2d)
 """

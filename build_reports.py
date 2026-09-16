@@ -27,6 +27,7 @@ from reportlab.platypus import (
 
 ROOT = Path(__file__).resolve().parent
 NAME = "Munyeme Sinyani"
+COMPUTER = "2025024319"
 COURSE = "CSC 6302 - Computer Vision"
 UNI = "University of Zambia"
 
@@ -104,11 +105,11 @@ def read_csv_rows(path: Path):
         return list(csv.DictReader(f))
 
 
-def cover(story, st, prac_no: int, title: str, pages_note: str):
+def cover(story, st, prac_no: int, title: str, pages_note: str = ""):
     story.append(P(COURSE, "sub", st))
     story.append(P(f"Practical {prac_no} Report", "title", st))
     story.append(P(title, "sub", st))
-    story.append(P(f"<b>{NAME}</b><br/>{UNI}<br/>{pages_note}", "sub", st))
+    story.append(P(f"<b>{NAME}</b><br/>Computer number: {COMPUTER}<br/>{UNI}", "sub", st))
     story.append(Spacer(1, 0.3 * cm))
 
 
@@ -145,7 +146,7 @@ def build_prac1():
     fig = ROOT / "prac1" / "report" / "figures"
     out = ROOT / "prac1" / "report" / "Practical1_Report.pdf"
     story = []
-    cover(story, st, 1, "Seeing Like a Machine: The Image-Processing Toolbox", "Target length: 4-6 pages")
+    cover(story, st, 1, "Seeing Like a Machine: The Image-Processing Toolbox")
 
     story.append(P("1. What this practical is about", "h1", st))
     story.append(P(
@@ -309,7 +310,7 @@ def build_prac2():
     fig = ROOT / "prac2" / "report" / "figures"
     out = ROOT / "prac2" / "report" / "Practical2_Report.pdf"
     story = []
-    cover(story, st, 2, "Features that Matter: Corners, Descriptors and a Panorama", "Target length: 4-6 pages")
+    cover(story, st, 2, "Features that Matter: Corners, Descriptors and a Panorama")
 
     story.append(P("1. Overview", "h1", st))
     story.append(P(
@@ -480,7 +481,7 @@ def build_prac3():
     fig = ROOT / "prac3" / "report" / "figures"
     out = ROOT / "prac3" / "report" / "Practical3_Report.pdf"
     story = []
-    cover(story, st, 3, "Detecting Things: Template Matching to YOLO + First Vision App", "Target length: ~4-6 pages")
+    cover(story, st, 3, "Detecting Things: Template Matching to YOLO + First Vision App")
 
     story.append(P("1. Overview", "h1", st))
     story.append(P(
@@ -587,7 +588,7 @@ def build_prac4():
     fig = ROOT / "prac4" / "report" / "figures"
     out = ROOT / "prac4" / "report" / "Practical4_Report.pdf"
     story = []
-    cover(story, st, 4, "Deep Learning for Vision: Train, Transfer, Explain, Deploy", "Target length: 5-7 pages")
+    cover(story, st, 4, "Deep Learning for Vision: Train, Transfer, Explain, Deploy")
 
     story.append(P("1. Overview", "h1", st))
     story.append(P(
@@ -785,7 +786,7 @@ def build_prac5():
     fig = ROOT / "prac5" / "report" / "figures"
     out = ROOT / "prac5" / "report" / "Practical5_Report.pdf"
     story = []
-    cover(story, st, 5, "Image Segmentation: Which Pixels, Exactly?", "Target length: 5-7 pages")
+    cover(story, st, 5, "Image Segmentation: Which Pixels, Exactly?")
 
     story.append(P("1. Overview", "h1", st))
     story.append(P(
@@ -1012,7 +1013,7 @@ def build_prac6():
     fig = ROOT / "prac6" / "report" / "figures"
     out = ROOT / "prac6" / "report" / "Practical6_Report.pdf"
     story = []
-    cover(story, st, 6, "Motion, Tracking, Depth and Augmented Reality", "Target length: 4-6 pages")
+    cover(story, st, 6, "Motion, Tracking, Depth and Augmented Reality")
 
     story.append(P("1. Overview", "h1", st))
     story.append(P(
@@ -1085,7 +1086,7 @@ def build_prac7():
     out = ROOT / "prac7" / "report" / "Practical7_Capstone_Report.pdf"
     out.parent.mkdir(parents=True, exist_ok=True)
     story = []
-    cover(story, st, 7, "Capstone: Deployed Computer Vision (Agriculture - maize leaf triage)", "Target length: 6-8 pages")
+    cover(story, st, 7, "Capstone: Deployed Computer Vision (Agriculture - maize leaf triage)")
 
     story.append(P("1. Problem", "h1", st))
     story.append(P(

@@ -1,2 +1,2 @@
-haar_ms_per_frame=9.66
-yolo_ms_per_frame=118.59
+haar_ms_per_frame=33.85
+yolo_ms_per_frame=848.60

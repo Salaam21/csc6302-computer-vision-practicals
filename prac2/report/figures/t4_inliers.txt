@@ -1,2 +1,2 @@
-ransac_inliers=401
-third_image_inliers=226
+ransac_inliers=386
+third_image_inliers=975

@@ -33,26 +33,30 @@ def save_pair(imgs, titles, path):
 
 def task1_template():
     scene = cv2.imread(str(IMG / "colourful.jpg"))
-    # I crop the green circle as my template
-    tmpl = scene[70:210, 410:550].copy()
+    h0, w0 = scene.shape[:2]
+    # crop a distinctive patch from my outdoor photo (works for any size)
+    y0, x0 = h0 // 3, max(0, w0 // 4)
+    tmpl = scene[y0:y0 + 80, x0:x0 + 80].copy()
     res = cv2.matchTemplate(scene, tmpl, cv2.TM_CCOEFF_NORMED)
     _, maxv, _, maxloc = cv2.minMaxLoc(res)
     hit = scene.copy()
-    h, w = tmpl.shape[:2]
-    cv2.rectangle(hit, maxloc, (maxloc[0] + w, maxloc[1] + h), (0, 255, 0), 2)
+    th, tw = tmpl.shape[:2]
+    cv2.rectangle(hit, maxloc, (maxloc[0] + tw, maxloc[1] + th), (0, 255, 0), 2)
 
-    # template matching fails when scale changes
-    scaled = cv2.resize(scene, None, fx=0.6, fy=0.6)
+    # fail case: same template on a scaled-down scene (pattern no longer lines up)
+    scaled = cv2.resize(scene, None, fx=0.55, fy=0.55)
     res2 = cv2.matchTemplate(scaled, tmpl, cv2.TM_CCOEFF_NORMED)
     _, maxv2, _, _ = cv2.minMaxLoc(res2)
     score_vis = (res * 255).astype(np.uint8)
     score_vis2 = (res2 * 255).astype(np.uint8)
     save_pair(
         [hit, score_vis, score_vis2],
-        [f"Found (score={maxv:.2f})", "Score map OK", f"Scaled scene score max={maxv2:.2f}"],
+        [f"Found (score={maxv:.2f})", "Score map OK", f"Scaled scene max={maxv2:.2f}"],
         OUT / "t1_template.png",
     )
-    (OUT / "t1_scores.txt").write_text(f"same_view={maxv:.4f}\nscaled_view={maxv2:.4f}\n")
+    (OUT / "t1_scores.txt").write_text(
+        f"same_view={maxv:.4f}\nscaled_view={maxv2:.4f}\n", encoding="utf-8"
+    )
 
 
 def task2_haar():

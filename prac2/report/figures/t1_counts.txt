@@ -1,2 +1,2 @@
 checkerboard: harris=188 shi=70 fast=0
-natural: harris=87 shi=200 fast=258
+natural: harris=771 shi=200 fast=7466
