@@ -1,0 +1,10 @@
+{
+  "message": "Pothole severity hint: HIGH (dark_frac=24.3%, blobs=3). Large/many dark regions \u2014 treat as priority for a human check.",
+  "scores": {
+    "low": 0.0,
+    "medium": 0.0,
+    "high": 1.0,
+    "dark_fraction": 0.243,
+    "blobs": 3
+  }
+}

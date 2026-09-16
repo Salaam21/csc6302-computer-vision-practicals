@@ -1,46 +1,62 @@
-"""Pytest checks for my capstone app."""
+"""Pytest checks for the road-transport capstone app."""
 
 from __future__ import annotations
 
 import numpy as np
 from PIL import Image
 
-from app import _textured, blurry, heuristic_predict, predict, preprocess_shape
+from app import (
+    VEHICLE_CLASSES,
+    _textured,
+    blurry,
+    count_vehicles,
+    empty_counts,
+    format_counts,
+    rate_pothole,
+)
 
 
 def _flat(colour, size=(128, 128)):
     return Image.new("RGB", size, colour)
 
 
-def test_preprocess_shape_dtype():
-    img = _textured((40, 160, 60))
-    arr = preprocess_shape(img)
-    assert arr.shape == (3, 128, 128)
-    assert arr.dtype == np.float32
-    assert 0.0 <= arr.min() <= arr.max() <= 1.0
+def test_empty_counts_keys():
+    c = empty_counts()
+    assert set(c) == set(VEHICLE_CLASSES)
+    assert sum(c.values()) == 0
 
 
-def test_heuristic_healthy_leans_green():
-    probs = heuristic_predict(_textured((40, 180, 50)))
-    assert max(probs, key=probs.get) == "healthy"
+def test_format_counts_none():
+    assert "No vehicles" in format_counts(empty_counts())
 
 
-def test_known_green_image_not_crash():
-    msg, probs, note = predict(_textured((40, 180, 50)), conf_gate=0.1)
-    assert "Prediction" in msg or "Unsure" in msg
-    assert "NOT FOR REAL" in note
-    assert abs(sum(probs.values()) - 1.0) < 1e-3
+def test_format_counts_mixed():
+    c = empty_counts()
+    c["car"] = 2
+    c["bus"] = 1
+    text = format_counts(c)
+    assert "Total vehicles: 3" in text
+    assert "2 cars" in text
+    assert "1 bus" in text
 
 
 def test_blurry_rejected():
     img = _flat((120, 120, 120))
     assert blurry(img) is True
-    msg, probs, _ = predict(img, conf_gate=0.45)
+    msg, counts, _, note = count_vehicles(img, conf_gate=0.35)
     assert "blurry" in msg.lower()
-    assert probs == {}
+    assert sum(counts.values()) == 0
+    assert "COURSEWORK" in note
 
 
-def test_confidence_gate_unsure():
-    msg, probs, _ = predict(_textured((40, 180, 50)), conf_gate=0.99)
-    assert "Unsure" in msg
-    assert probs
+def test_pothole_heuristic_runs():
+    img = _textured((90, 90, 90), size=(320, 240), seed=3)
+    # punch a dark hole in the lower half
+    arr = np.asarray(img).copy()
+    arr[160:220, 100:180] = 15
+    img = Image.fromarray(arr)
+    msg, scores, out, note = rate_pothole(img)
+    assert "severity" in msg.lower() or "POTHOLE" in msg.upper() or "Pothole" in msg
+    assert out is not None
+    assert "COURSEWORK" in note
+    assert scores.get("blobs", 0) >= 0

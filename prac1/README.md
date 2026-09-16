@@ -33,8 +33,6 @@ python prac1/process.py --input images/clean_gray.png --op edges --output edges.
 python prac1/process.py --input images/coins.jpg --op count --output count_vis.png
 ```
 
-Optional: rebuild report PDF with `python build_reports.py`.
-
 ## Photos I used
 
 My photos are in `images/`: `colourful.jpg` (outdoor scene), `lowlight.jpg` (darker indoor), `coins.jpg` (earrings for counting).

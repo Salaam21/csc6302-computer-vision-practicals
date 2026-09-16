@@ -25,8 +25,11 @@ python prac4/train_prac4.py
 python prac5/run_prac5.py
 python prac6/run_prac6.py
 cd prac7 && pytest -q && cd ..
-python build_reports.py
+python prac7/run_prac7.py
+python prac7/app.py
 ```
+
+Practical 7 is the **Road & transport** capstone (vehicle counting + pothole hint). Phone companion: [Salaam21/blindspot](https://github.com/Salaam21/blindspot) branch `vehicle-counting`.
 
 Practical 3 needs `ultralytics` for YOLO. Practical 4 training takes a few minutes on CPU.
 

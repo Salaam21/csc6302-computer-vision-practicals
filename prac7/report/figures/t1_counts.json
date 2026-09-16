@@ -1,0 +1,10 @@
+{
+  "message": "Total vehicles: 1. Breakdown: 1 motorcycle.",
+  "counts": {
+    "bicycle": 0,
+    "car": 0,
+    "motorcycle": 1,
+    "bus": 0,
+    "truck": 0
+  }
+}

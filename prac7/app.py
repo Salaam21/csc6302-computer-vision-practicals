@@ -1,144 +1,239 @@
 """
-Capstone - maize leaf triage (Agriculture track).
-Upload a leaf photo, get class + confidence + short guidance.
+Capstone - Road & transport track.
+Vehicle counting / classification from roadside frames, plus a simple
+pothole severity hint from dashcam-style photos.
+
+Mobile companion (Android + on-device SSD MobileNet TFLite):
+https://github.com/Salaam21/blindspot
 """
 
 from __future__ import annotations
 
+from collections import Counter
 from pathlib import Path
 
+import cv2
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 ROOT = Path(__file__).resolve().parent
-CLASSES = ["healthy", "rust", "blight"]
-GUIDANCE = {
-    "healthy": "Looks healthy. Keep monitoring; no fungicide needed from this photo alone.",
-    "rust": "Possible rust. Isolate affected leaves if you can, and ask an agronomist before spraying.",
-    "blight": "Possible blight pattern. Do not treat this as a diagnosis - get a field extension officer to confirm.",
-}
+REPO = ROOT.parent
+WEIGHTS = ROOT / "weights" / "yolov8n.pt"
+VEHICLE_CLASSES = ("bicycle", "car", "motorcycle", "bus", "truck")
 DISCLAIMER = (
-    "NOT FOR REAL FARM DECISIONS. This is a student coursework for CSC 6302. "
-    "Wrong advice can waste money or miss a real outbreak."
+    "COURSEWORK DEMO ONLY (CSC 6302). Counts are model estimates, not official "
+    "traffic statistics. Pothole severity is a rough image heuristic — not a "
+    "road-maintenance inspection."
 )
 
-_model = None
-_torch_classes = None
+_yolo = None
 
 
-def try_load_torch():
-    global _model, _torch_classes
-    ckpt_path = ROOT.parent / "prac4" / "model.pt"
-    if not ckpt_path.exists():
-        return False
-    try:
-        import torch
-        import torch.nn as nn
-        from torchvision import models, transforms
-
-        ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
-        _torch_classes = ckpt["classes"]
-        m = models.mobilenet_v3_small(weights=None)
-        m.classifier[3] = nn.Linear(m.classifier[3].in_features, len(_torch_classes))
-        m.load_state_dict(ckpt["state_dict"])
-        m.eval()
-        _model = (m, transforms.Compose([
-            transforms.Resize((128, 128)),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-        ]))
-        return True
-    except Exception:
-        return False
+def ensure_weights() -> Path:
+    """Use local weights if present; otherwise let Ultralytics download yolov8n."""
+    WEIGHTS.parent.mkdir(parents=True, exist_ok=True)
+    if WEIGHTS.exists():
+        return WEIGHTS
+    return Path("yolov8n.pt")
 
 
-try_load_torch()
+def get_model():
+    global _yolo
+    if _yolo is None:
+        from ultralytics import YOLO
+
+        _yolo = YOLO(str(ensure_weights()))
+        # cache under prac7/weights after first download if possible
+        try:
+            src = Path(_yolo.ckpt_path) if hasattr(_yolo, "ckpt_path") else None
+        except Exception:
+            src = None
+        if src and src.exists() and not WEIGHTS.exists():
+            try:
+                WEIGHTS.write_bytes(src.read_bytes())
+            except Exception:
+                pass
+    return _yolo
 
 
-def blurry(img: Image.Image, thresh: float = 25.0) -> bool:
+def blurry(img: Image.Image, thresh: float = 18.0) -> bool:
     arr = np.asarray(img.convert("L"), dtype=np.float32)
     gy, gx = np.gradient(arr)
     return float(gx.var() + gy.var()) < thresh
 
 
-def _textured(colour, size=(128, 128), seed=0):
-    # for tests - solid colour plus noise so blur gate passes
+def _textured(colour, size=(256, 256), seed=0):
     rng = np.random.default_rng(seed)
     base = np.zeros((size[1], size[0], 3), np.uint8)
     base[:, :] = colour
-    noise = rng.integers(-25, 26, base.shape, dtype=np.int16)
+    noise = rng.integers(-30, 31, base.shape, dtype=np.int16)
     return Image.fromarray(np.clip(base.astype(np.int16) + noise, 0, 255).astype(np.uint8))
 
 
-def heuristic_predict(img: Image.Image) -> dict[str, float]:
-    # fallback when prac4 model.pt is missing
-    arr = np.asarray(img.convert("RGB").resize((64, 64)), dtype=np.float32)
-    mean = arr.reshape(-1, 3).mean(0)
-    scores = {
-        "healthy": float(mean[1] - mean[0]),
-        "rust": float(mean[2] * 0.3 + mean[0] - mean[1]),
-        "blight": float(200 - mean.mean()),
-    }
-    exps = {k: np.exp(v / 20.0) for k, v in scores.items()}
-    s = sum(exps.values())
-    return {k: float(exps[k] / s) for k in CLASSES}
+def empty_counts() -> dict[str, int]:
+    return {c: 0 for c in VEHICLE_CLASSES}
 
 
-def torch_predict(img: Image.Image) -> dict[str, float]:
-    import torch
-
-    m, tf = _model
-    x = tf(img.convert("RGB")).unsqueeze(0)
-    with torch.no_grad():
-        probs = torch.softmax(m(x), 1)[0]
-    return {_torch_classes[i]: float(probs[i]) for i in range(len(_torch_classes))}
+def orient_frame(img: Image.Image) -> Image.Image:
+    """Fix EXIF orientation; many phone roadside shots are stored sideways."""
+    return ImageOps.exif_transpose(img.convert("RGB"))
 
 
-def predict(img: Image.Image, conf_gate: float = 0.45):
+def _detect_on(model, rgb: Image.Image, conf_gate: float):
+    arr = np.asarray(rgb)
+    results = model.predict(arr, conf=conf_gate, verbose=False)
+    counts = empty_counts()
+    boxes_out: list[tuple[str, float, tuple[float, float, float, float]]] = []
+    for r in results:
+        names = r.names
+        if r.boxes is None:
+            continue
+        for box in r.boxes:
+            cls_id = int(box.cls.item())
+            label = names.get(cls_id, str(cls_id))
+            if label not in VEHICLE_CLASSES:
+                continue
+            conf = float(box.conf.item())
+            counts[label] += 1
+            x1, y1, x2, y2 = [float(v) for v in box.xyxy[0].tolist()]
+            boxes_out.append((label, conf, (x1, y1, x2, y2)))
+    return counts, boxes_out
+
+
+def annotate(rgb: Image.Image, boxes) -> Image.Image:
+    out = rgb.copy()
+    draw = ImageDraw.Draw(out)
+    try:
+        font = ImageFont.load_default()
+    except Exception:
+        font = None
+    for label, conf, (x1, y1, x2, y2) in boxes:
+        draw.rectangle([x1, y1, x2, y2], outline=(0, 180, 255), width=3)
+        draw.text((x1 + 2, max(0, y1 - 12)), f"{label} {conf:.0%}", fill=(255, 220, 0), font=font)
+    return out
+
+
+def format_counts(counts: dict[str, int]) -> str:
+    parts = [f"{n} {name}{'s' if n != 1 else ''}" for name, n in counts.items() if n]
+    total = sum(counts.values())
+    if not parts:
+        return "No vehicles detected above the confidence gate."
+    return f"Total vehicles: {total}. Breakdown: " + ", ".join(parts) + "."
+
+
+def count_vehicles(img: Image.Image, conf_gate: float = 0.35):
+    """Detect and count roadside vehicles. Returns message, counts, annotated PIL, note."""
     if img is None:
-        return "No image", {}, DISCLAIMER
+        return "No image", empty_counts(), None, DISCLAIMER
     if img.mode not in ("RGB", "RGBA", "L"):
-        return "Unsupported file type. Please upload a normal photo (JPG/PNG).", {}, DISCLAIMER
+        return "Unsupported file type. Upload JPG/PNG.", empty_counts(), None, DISCLAIMER
     if blurry(img):
         return (
-            "Image looks too blurry for a reliable read. Retake closer and steadier.",
-            {},
+            "Frame looks too blurry for a reliable count. Use a steadier roadside shot.",
+            empty_counts(),
+            img.convert("RGB"),
             DISCLAIMER,
         )
-    probs = torch_predict(img) if _model is not None else heuristic_predict(img)
-    top = max(probs, key=probs.get)
-    conf = probs[top]
-    if conf < conf_gate:
-        return (
-            f"Unsure (top guess {top} at {conf:.0%}). Try a clearer leaf-centred photo.",
-            probs,
-            DISCLAIMER,
-        )
-    msg = f"Prediction: {top} ({conf:.0%}). {GUIDANCE[top]}"
-    return msg, probs, DISCLAIMER
+
+    model = get_model()
+    base = orient_frame(img)
+    candidates = [base]
+    # sideways phone frames are common — keep the orientation with more vehicle hits
+    for angle in (90, 270):
+        candidates.append(base.rotate(angle, expand=True))
+
+    best_counts, best_boxes, best_rgb = empty_counts(), [], base
+    best_total = -1
+    for cand in candidates:
+        counts, boxes = _detect_on(model, cand, conf_gate)
+        total = sum(counts.values())
+        if total > best_total:
+            best_total = total
+            best_counts, best_boxes, best_rgb = counts, boxes, cand
+
+    annotated = annotate(best_rgb, best_boxes)
+    msg = format_counts(best_counts)
+    return msg, best_counts, annotated, DISCLAIMER
 
 
-def preprocess_shape(img: Image.Image):
-    arr = np.asarray(img.convert("RGB").resize((128, 128)), dtype=np.float32) / 255.0
-    return arr.transpose(2, 0, 1)
+def rate_pothole(img: Image.Image):
+    """
+    Lightweight dashcam heuristic (not a trained pothole detector).
+    Looks for dark irregular patches on a road-like lower region.
+    """
+    if img is None:
+        return "No image", {}, None, DISCLAIMER
+    rgb = orient_frame(img)
+    arr = np.asarray(rgb)
+    h, w = arr.shape[:2]
+    roi = arr[int(h * 0.45) :, :, :]
+    gray = cv2.cvtColor(roi, cv2.COLOR_RGB2GRAY)
+    blur = cv2.GaussianBlur(gray, (5, 5), 0)
+    # dark patches relative to road
+    thr = max(40, int(np.percentile(blur, 25)))
+    mask = (blur < thr).astype(np.uint8) * 255
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
+    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
+    frac = float(mask.mean() / 255.0)
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    big = [c for c in contours if cv2.contourArea(c) > 0.002 * mask.size]
+    n_blobs = len(big)
+
+    if frac < 0.02 and n_blobs == 0:
+        level, advice = "low", "Little dark-patch evidence in the lower frame."
+    elif frac < 0.08 or n_blobs <= 2:
+        level, advice = "medium", "Possible damaged patches — verify on site."
+    else:
+        level, advice = "high", "Large/many dark regions — treat as priority for a human check."
+
+    vis = roi.copy()
+    overlay = vis.copy()
+    overlay[mask > 0] = (220, 60, 60)
+    vis = cv2.addWeighted(vis, 0.65, overlay, 0.35, 0)
+    full = arr.copy()
+    full[int(h * 0.45) :, :, :] = vis
+    out = Image.fromarray(full)
+    scores = {"low": 0.0, "medium": 0.0, "high": 0.0, "dark_fraction": round(frac, 3), "blobs": n_blobs}
+    scores[level] = 1.0
+    msg = f"Pothole severity hint: {level.upper()} (dark_frac={frac:.1%}, blobs={n_blobs}). {advice}"
+    return msg, scores, out, DISCLAIMER
 
 
 def build_demo():
     import gradio as gr
 
-    demo = gr.Blocks(title="CSC6302 Capstone - Maize leaf triage")
+    demo = gr.Blocks(title="CSC6302 Capstone - Vehicle counting")
     with demo:
-        gr.Markdown("# Maize leaf disease triage")
+        gr.Markdown("# Road & transport — vehicle counting")
+        gr.Markdown(
+            "Track: **vehicle counting and classification** from roadside footage, "
+            "plus a **pothole severity hint** from dashcam-style images.\n\n"
+            "Phone app (Android, SSD MobileNet TFLite already on-device): "
+            "[Salaam21/blindspot](https://github.com/Salaam21/blindspot) "
+            "(branch `vehicle-counting`). This Gradio page uses YOLOv8n for the coursework demo."
+        )
         gr.Markdown(DISCLAIMER)
-        with gr.Row():
-            inp = gr.Image(type="pil", label="Upload leaf photo")
-            with gr.Column():
-                gate = gr.Slider(0.2, 0.9, value=0.45, label="Confidence gate")
-                out_msg = gr.Textbox(label="Result")
-                out_probs = gr.Label(label="Class probabilities")
-                out_note = gr.Textbox(label="Must NOT be used for")
-        btn = gr.Button("Analyse")
-        btn.click(predict, [inp, gate], [out_msg, out_probs, out_note])
+        with gr.Tab("Vehicle count"):
+            with gr.Row():
+                vin = gr.Image(type="pil", label="Roadside / traffic frame")
+                with gr.Column():
+                    gate = gr.Slider(0.15, 0.8, value=0.35, label="Confidence gate")
+                    vmsg = gr.Textbox(label="Count summary")
+                    vcounts = gr.Label(label="Per-class counts")
+                    vnote = gr.Textbox(label="Disclaimer")
+            vout = gr.Image(type="pil", label="Annotated frame")
+            vbtn = gr.Button("Count vehicles")
+            vbtn.click(count_vehicles, [vin, gate], [vmsg, vcounts, vout, vnote])
+        with gr.Tab("Pothole severity"):
+            with gr.Row():
+                pin = gr.Image(type="pil", label="Dashcam / road surface photo")
+                with gr.Column():
+                    pmsg = gr.Textbox(label="Severity hint")
+                    pscores = gr.Label(label="Scores / diagnostics")
+                    pnote = gr.Textbox(label="Disclaimer")
+            pout = gr.Image(type="pil", label="Highlighted lower ROI")
+            pbtn = gr.Button("Rate pothole hint")
+            pbtn.click(rate_pothole, [pin], [pmsg, pscores, pout, pnote])
     return demo
 
 

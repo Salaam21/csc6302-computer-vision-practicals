@@ -1,26 +1,38 @@
-# Capstone proposal — Agriculture track
+# Capstone proposal — Road & transport track
 
-**Team:** Munyeme Sinyani (+ partner TBA — register with lecturer by gate date)  
-**Repo:** `csc6302-capstone-SINYANI-PARTNER`
+**Team:** Munyeme Sinyani  
+**Coursework Gradio repo folder:** `prac7/` in `csc6302-computer-vision-practicals`  
+**Mobile app repo:** [https://github.com/Salaam21/blindspot](https://github.com/Salaam21/blindspot) (branch `vehicle-counting`)
 
 ## Problem statement
-Smallholder farmers and students need a **phone-first screening aid** that looks at a maize leaf photo and suggests whether it looks healthy, rusty, or blighted — with an explicit confidence gate and a hard disclaimer that this is **not** a diagnosis.
+Road agencies and students need a **phone-first / laptop demo** that:
+1. Counts and classifies vehicles (car, bus, truck, motorcycle, bicycle) in a roadside frame.
+2. Gives a **rough pothole severity hint** from a dashcam-style road photo.
 
-## Dataset plan
-- Preferred: field photos around Lusaka/UNZA farms (consent noted; no identifiable people).
-- Dataset: leaf photos under `images/leaf_dataset` (healthy / rust / blight), split 70/15/15 by folder.
-- Held-out evaluation: ≥30 test images; report accuracy + per-class F1.
+Wrong counts must not be treated as official traffic stats. Pothole output is a **heuristic**, not a certified inspection.
+
+## Dataset / demo media plan
+- Roadside still: `images/street.jpg` for counting demos and report figures.
+- Optional: short roadside clips on phone via Blindspot live camera.
+- Held-out idea (if expanding): labelled Lusaka roadside frames; report precision/recall per class.
 
 ## Model plan
-- Fine-tune MobileNetV3-Small (Practical 4 style): freeze backbone → train head → light fine-tune.
-- Classical HSV pre-check for “is this even a leaf-ish green image?” optional.
-- Optional VLM explanation via OpenRouter free tier, cached; degrade to template text on 429.
+| Surface | Model | Role |
+|---------|-------|------|
+| Gradio coursework demo | YOLOv8n (Ultralytics; auto-download / `prac7/weights/`) | Vehicle detect + count + classify |
+| Phone app (Blindspot) | SSD MobileNet v1 TFLite already in `app/src/main/ml/` | On-device detect; UI filtered to vehicles + live count |
+| Pothole tab | Classical OpenCV dark-blob heuristic on lower ROI | Severity: low / medium / high |
 
 ## Team split
 | Person | Owns |
 |--------|------|
-| Member A | Data collection, training notebook, metrics |
-| Member B | Gradio app, tests, CI/CD, ethics page |
+| Munyeme Sinyani | Blindspot vehicle-counting branch, Gradio app, tests, report |
+| Partner (TBA) | Extra roadside data, HF Space deploy, metrics notebook |
 
 ## Risks
-False blight alarms waste spray money; missed rust can spread. We tune the confidence gate toward **“unsure”** rather than a confident wrong class.
+- Double-counting the same vehicle across frames if we do naive per-frame sums on video.
+- Night / rain / glare kills both SSD and YOLO confidence — confidence gate + “unsure / blurry” paths.
+- Pothole heuristic confuses shadows and wet patches — always shown with a disclaimer.
+
+## Ethics
+No identifiable number-plate OCR in this submission. Footage is for coursework demo only.

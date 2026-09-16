@@ -1,9 +1,11 @@
-# CSC 6302 Practical 7 - Capstone (Maize Leaf Triage)
+# CSC 6302 Practical 7 - Capstone (Road & transport)
 
 **Student:** Munyeme Sinyani (SINYANI) - University of Zambia  
-**Team repo:** `csc6302-capstone-SINYANI-PARTNER` (partner TBA)
 
-Phone upload: healthy / rust / blight guess, confidence gate, disclaimer.
+**Track:** vehicle counting and classification from roadside footage; pothole severity hint from dashcam images.
+
+**Mobile app (Android + TFLite SSD MobileNet):** [Salaam21/blindspot](https://github.com/Salaam21/blindspot) — branch `vehicle-counting`  
+(Note: this is a native Android/Kotlin project with an on-device model, not Flutter.)
 
 ## Install
 
@@ -12,10 +14,9 @@ cd csc6302-practicals
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
-python prac4/train_prac4.py
 ```
 
-Training prac4 is optional but loads real torch weights into the capstone app.
+First Gradio/YOLO run downloads `yolov8n.pt` (or caches under `prac7/weights/`).
 
 ## Run
 
@@ -23,13 +24,12 @@ Training prac4 is optional but loads real torch weights into the capstone app.
 cd prac7
 pytest -q
 cd ..
+python prac7/run_prac7.py
 python prac7/app.py
 ```
 
-See `PROPOSAL.md` for problem statement and team split.
-
-I still need to register my partner, push the capstone repo, and set up Hugging Face with my own token. The disclaimer in `app.py` stays visible.
+See `PROPOSAL.md` and `MOBILE.md`.
 
 ## AI Use
 
-Composer helped with ideas for Gradio layout, blur gate, tests, and CI yaml. I wrote the guidance text and set the confidence gate to say "unsure" when it should.
+Composer helped with Gradio layout, YOLO counting glue, tests, and report wording. I chose the road-transport track and linked it to my existing Blindspot phone project.
