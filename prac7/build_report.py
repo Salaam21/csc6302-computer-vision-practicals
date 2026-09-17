@@ -64,10 +64,13 @@ def build():
     )
     story.append(
         Paragraph(
-            "Mobile companion: <font face='Courier'>https://github.com/Salaam21/blindspot</font> "
-            "(branch <font face='Courier'>vehicle-counting</font>). "
-            "Coursework Gradio: <font face='Courier'>prac7/</font> in "
-            "<font face='Courier'>csc6302-computer-vision-practicals</font>.",
+            "Live web demo (Streamlit): "
+            "<font face='Courier'>https://csc6302-computer-vision-practicalsgit-5wmff88oj3b8thqovqxukj.streamlit.app/</font>. "
+            "Code: <font face='Courier'>https://github.com/Salaam21/csc6302-computer-vision-practicals</font> "
+            "(branch <font face='Courier'>prac7-road-transport-vehicle-counting</font>). "
+            "Android APK: <font face='Courier'>prac7/apk/Allans_Car_Counter.apk</font> — "
+            "repo <font face='Courier'>https://github.com/Salaam21/allans-car-counter</font>. "
+            "Blindspot is a separate accessibility project (not used for this capstone).",
             st["meta"],
         )
     )
@@ -88,10 +91,10 @@ def build():
     story.append(
         Paragraph(
             "Substantive CV component: a pretrained detector adapted to the task (Practical 3/5 style). "
-            "Laptop/Gradio uses <b>YOLOv8n</b> (Ultralytics COCO weights), filtered to five vehicle classes, "
-            "with a confidence gate (default 0.35). The Android Blindspot app uses on-device "
-            "<b>SSD MobileNet v1 TFLite</b> already in the repo — same problem, different runtime. "
-            "Pothole tab: classical OpenCV dark-blob heuristic on the lower ROI (justified because we lack "
+            "Laptop / Streamlit / Gradio uses <b>YOLOv8n</b> (Ultralytics COCO weights), filtered to five vehicle classes, "
+            "with a confidence gate (default 0.35). The Android app <b>Allan's Car Counter</b> uses on-device "
+            "<b>SSD MobileNet v1 TFLite</b> — same problem, different runtime (separate from Blindspot). "
+            "Pothole tab: classical dark-blob heuristic on the lower ROI (justified because we lack "
             "a labelled Zambian pothole set for fine-tuning). "
             "Optional VLM explanation was not wired for this hand-in (OpenRouter quota); the CV pipeline "
             "stands alone with template plain-language summaries.",
@@ -102,8 +105,9 @@ def build():
     story.append(Paragraph("3. Application (R2)", st["h1"]))
     story.append(
         Paragraph(
-            "Gradio Blocks UI: upload → per-class counts + annotated boxes → plain-language summary + "
-            "visible coursework disclaimer stating what the tool must <b>not</b> be used for. "
+            "Primary marker path: the <b>Streamlit Community Cloud</b> URL on the cover (upload → per-class counts "
+            "+ annotated boxes → plain-language summary). Local Gradio (<font face='Courier'>python prac7/app.py</font>) "
+            "is the same logic. Android: install <font face='Courier'>Allans_Car_Counter.apk</font> and use the camera. "
             "Graceful failure: tiny/unsupported images rejected; blurry frames rejected via gradient variance; "
             "zero detections or marginal confidence return an <b>UNSURE</b> message instead of a confident wrong total.",
             st["body"],
@@ -152,10 +156,10 @@ def build():
     story.append(Paragraph("4.2 Method detail — pothole path", st["h2"]))
     story.append(
         Paragraph(
-            "Lower 55% of the frame is treated as road. Gaussian blur, percentile dark threshold, open/close morphology, "
-            "then blob count and dark-pixel fraction map to low / medium / high. "
-            "This classical choice is deliberate: without a licensed Zambian pothole dataset I refuse to pretend a "
-            "fine-tuned detector exists. The UI labels the result a hint and repeats the disclaimer.",
+            "Lower 55% of the frame is treated as road. Blur, percentile dark threshold, light morphology, "
+            "then blob count and dark-pixel fraction map to low / medium / high (numpy path on Streamlit so GUI "
+            "OpenCV is not required). This classical choice is deliberate: without a licensed Zambian pothole "
+            "dataset I refuse to pretend a fine-tuned detector exists. The UI labels the result a hint.",
             st["body"],
         )
     )
@@ -170,12 +174,11 @@ def build():
             "confidence-gate unsure path, pothole heuristic. "
             "GitHub Actions workflow at repo root <font face='Courier'>.github/workflows/ci-cd.yml</font> "
             "installs deps, runs ruff + pytest on push/PR. "
-            "CD job pushes Gradio files to a Hugging Face Space when <font face='Courier'>HF_TOKEN</font> "
-            "is set as a GitHub secret — never committed. "
-            "<b>Limitation:</b> this Hugging Face account currently gets HTTP 402 PRO for new Gradio Spaces "
-            "(same as Practicals 4–5). Until PRO/education unlock, markers run "
-            "<font face='Courier'>python prac7/app.py</font> locally; CD is automated in workflow form and "
-            "documented. No API keys in the repo.",
+            "Hugging Face Gradio Spaces on this account return HTTP 402 PRO (same as Practicals 4–5), "
+            "so the live hand-in is <b>Streamlit Community Cloud</b> from the GitHub branch above "
+            "(apt <font face='Courier'>libgl1</font> + headless OpenCV). "
+            "Markers can also run <font face='Courier'>python prac7/app.py</font> or "
+            "<font face='Courier'>streamlit run prac7/streamlit_app.py</font> locally. No API keys in the repo.",
             st["body"],
         )
     )
@@ -272,8 +275,8 @@ def build():
             "Kalman / ByteTrack-style IDs could fuse later). Extreme blur and glare trip the blur gate or UNSURE path. "
             "Pothole heuristic fires on shadows. Synthetic MAE will look poor if YOLO ignores drawings — "
             "that shows the domain gap, not a hidden fine-tune. "
-            "Live HF Space URL is the remaining submission risk on this account because Gradio Spaces currently "
-            "require PRO; the mitigation is a working local app + CI green + documented CD job.",
+            "Live HF Space URL is no longer required: the public Streamlit app above is the hand-in link. "
+            "HF Gradio Spaces remain blocked by PRO on this account; Streamlit is the documented mitigation.",
             st["body"],
         )
     )
@@ -281,8 +284,9 @@ def build():
     story.append(Paragraph("9. Demo &amp; seminar plan", st["h1"]))
     story.append(
         Paragraph(
-            "Five-minute demo: (1) open Gradio, upload street frame, show counts + boxes; (2) show blurry reject; "
-            "(3) pothole tab on a road photo; (4) open Blindspot phone count screen; (5) open CI badge / pytest. "
+            "Five-minute demo: (1) open the Streamlit URL, upload a street frame, show counts + boxes; "
+            "(2) show blurry reject; (3) pothole tab on a road photo; (4) install/open Allan's Car Counter APK "
+            "and show live phone counts; (5) open CI / pytest. "
             "Seminar: either member (when partner joins) must be able to change the confidence gate live and explain "
             "UNSURE behaviour.",
             st["body"],
@@ -297,9 +301,10 @@ def build():
             "<font face='Courier'>python prac7/run_prac7.py</font><br/>"
             "<font face='Courier'>python prac7/eval_heldout.py</font><br/>"
             "<font face='Courier'>python prac7/build_report.py</font><br/>"
-            "<font face='Courier'>python prac7/app.py</font><br/>"
-            "Proposal gate file: <font face='Courier'>prac7/PROPOSAL.md</font>. "
-            "Mobile notes: <font face='Courier'>prac7/MOBILE.md</font>.",
+            "<font face='Courier'>python prac7/app.py</font> or "
+            "<font face='Courier'>streamlit run prac7/streamlit_app.py</font><br/>"
+            "Live: Streamlit URL on cover. APK: <font face='Courier'>prac7/apk/Allans_Car_Counter.apk</font>. "
+            "Proposal: <font face='Courier'>prac7/PROPOSAL.md</font>. Mobile notes: <font face='Courier'>prac7/MOBILE.md</font>.",
             st["body"],
         )
     )
@@ -307,9 +312,9 @@ def build():
     story.append(Paragraph("11. Contributions &amp; AI use", st["h1"]))
     story.append(
         Paragraph(
-            "Munyeme Sinyani: Blindspot vehicle-counting branch, Gradio app, tests, CI workflow, evaluation, report. "
-            "Partner TBA for extra roadside labels / Space unlock / seminar co-demo. "
-            "Composer helped with Gradio glue, eval harness, and report layout; track choice, disclaimers, and ethics wording are mine.",
+            "Munyeme Sinyani: Allan's Car Counter (Flutter), Streamlit/Gradio app, tests, CI workflow, evaluation, report. "
+            "Partner TBA for extra roadside labels / seminar co-demo. "
+            "Composer helped with Gradio/Streamlit glue, eval harness, and report layout; track choice and ethics wording are mine.",
             st["body"],
         )
     )
