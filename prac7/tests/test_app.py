@@ -49,9 +49,25 @@ def test_blurry_rejected():
     assert "COURSEWORK" in note
 
 
+def test_tiny_image_rejected():
+    img = Image.new("RGB", (8, 8), (10, 10, 10))
+    msg, counts, _, _ = count_vehicles(img)
+    assert "small" in msg.lower()
+    assert sum(counts.values()) == 0
+
+
+def test_confidence_gate_accepts_slider_range():
+    # High gate on empty textured scene should stay at zero / unsure, not crash
+    img = _textured((80, 90, 70), size=(256, 180), seed=1)
+    msg, counts, out, note = count_vehicles(img, conf_gate=0.75)
+    assert out is not None
+    assert sum(counts.values()) == 0
+    assert "UNSURE" in msg or "No vehicles" in msg or "blurry" in msg.lower()
+    assert "COURSEWORK" in note
+
+
 def test_pothole_heuristic_runs():
     img = _textured((90, 90, 90), size=(320, 240), seed=3)
-    # punch a dark hole in the lower half
     arr = np.asarray(img).copy()
     arr[160:220, 100:180] = 15
     img = Image.fromarray(arr)

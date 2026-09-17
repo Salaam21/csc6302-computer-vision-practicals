@@ -3,13 +3,12 @@ Capstone - Road & transport track.
 Vehicle counting / classification from roadside frames, plus a simple
 pothole severity hint from dashcam-style photos.
 
-Mobile companion (Android + on-device SSD MobileNet TFLite):
-https://github.com/Salaam21/blindspot
+Mobile companion (Allan's Car Counter — separate Flutter app, not Blindspot):
+see folder allans-car-counter / package com.allans.car_counter
 """
 
 from __future__ import annotations
 
-from collections import Counter
 from pathlib import Path
 
 import cv2
@@ -46,12 +45,12 @@ def get_model():
         # cache under prac7/weights after first download if possible
         try:
             src = Path(_yolo.ckpt_path) if hasattr(_yolo, "ckpt_path") else None
-        except Exception:
+        except (AttributeError, OSError, TypeError):
             src = None
         if src and src.exists() and not WEIGHTS.exists():
             try:
                 WEIGHTS.write_bytes(src.read_bytes())
-            except Exception:
+            except OSError:
                 pass
     return _yolo
 
@@ -105,7 +104,7 @@ def annotate(rgb: Image.Image, boxes) -> Image.Image:
     draw = ImageDraw.Draw(out)
     try:
         font = ImageFont.load_default()
-    except Exception:
+    except OSError:
         font = None
     for label, conf, (x1, y1, x2, y2) in boxes:
         draw.rectangle([x1, y1, x2, y2], outline=(0, 180, 255), width=3)
@@ -125,7 +124,14 @@ def count_vehicles(img: Image.Image, conf_gate: float = 0.35):
     """Detect and count roadside vehicles. Returns message, counts, annotated PIL, note."""
     if img is None:
         return "No image", empty_counts(), None, DISCLAIMER
-    if img.mode not in ("RGB", "RGBA", "L"):
+    # Reject clearly non-image / empty payloads
+    try:
+        w, h = img.size
+    except (AttributeError, TypeError):
+        return "Could not read image. Upload JPG/PNG.", empty_counts(), None, DISCLAIMER
+    if w < 16 or h < 16:
+        return "Image too small. Upload a clearer roadside frame.", empty_counts(), None, DISCLAIMER
+    if img.mode not in ("RGB", "RGBA", "L", "P"):
         return "Unsupported file type. Upload JPG/PNG.", empty_counts(), None, DISCLAIMER
     if blurry(img):
         return (
@@ -144,15 +150,30 @@ def count_vehicles(img: Image.Image, conf_gate: float = 0.35):
 
     best_counts, best_boxes, best_rgb = empty_counts(), [], base
     best_total = -1
+    best_mean_conf = 0.0
     for cand in candidates:
         counts, boxes = _detect_on(model, cand, conf_gate)
         total = sum(counts.values())
-        if total > best_total:
+        mean_conf = float(np.mean([c for _, c, _ in boxes])) if boxes else 0.0
+        if total > best_total or (total == best_total and mean_conf > best_mean_conf):
             best_total = total
+            best_mean_conf = mean_conf
             best_counts, best_boxes, best_rgb = counts, boxes, cand
 
     annotated = annotate(best_rgb, best_boxes)
-    msg = format_counts(best_counts)
+    if best_total == 0:
+        msg = (
+            "UNSURE: no vehicles above the confidence gate. "
+            "Try a closer roadside frame, lower the gate slightly, or check lighting."
+        )
+    elif best_mean_conf < conf_gate + 0.05 and best_total <= 1:
+        msg = (
+            f"UNSURE (low confidence ~{best_mean_conf:.0%}): "
+            + format_counts(best_counts)
+            + " Treat as a weak estimate."
+        )
+    else:
+        msg = format_counts(best_counts)
     return msg, best_counts, annotated, DISCLAIMER
 
 
@@ -165,7 +186,7 @@ def rate_pothole(img: Image.Image):
         return "No image", {}, None, DISCLAIMER
     rgb = orient_frame(img)
     arr = np.asarray(rgb)
-    h, w = arr.shape[:2]
+    h, _w = arr.shape[:2]
     roi = arr[int(h * 0.45) :, :, :]
     gray = cv2.cvtColor(roi, cv2.COLOR_RGB2GRAY)
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
@@ -208,9 +229,8 @@ def build_demo():
         gr.Markdown(
             "Track: **vehicle counting and classification** from roadside footage, "
             "plus a **pothole severity hint** from dashcam-style images.\n\n"
-            "Phone app (Android, SSD MobileNet TFLite already on-device): "
-            "[Salaam21/blindspot](https://github.com/Salaam21/blindspot) "
-            "(branch `vehicle-counting`). This Gradio page uses YOLOv8n for the coursework demo."
+            "Phone app: **Allan's Car Counter** (Flutter, on-device TFLite) — separate from Blindspot. "
+            "This Gradio page uses YOLOv8n for the coursework demo."
         )
         gr.Markdown(DISCLAIMER)
         with gr.Tab("Vehicle count"):
@@ -238,4 +258,8 @@ def build_demo():
 
 
 if __name__ == "__main__":
-    build_demo().launch()
+    import os
+
+    # SHARE=1 → temporary public *.gradio.live link (good for a quick demo)
+    share = os.environ.get("SHARE", "0").strip() in ("1", "true", "True", "yes")
+    build_demo().launch(share=share, server_name="127.0.0.1")

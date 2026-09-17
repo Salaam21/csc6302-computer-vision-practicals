@@ -28,6 +28,17 @@ out.png
 edges.png
 images/_pick_test.png
 
-# huge raw / phone originals (resized working copies are enough)
+# huge raw / phone originals
 *.dng
 images/401417.jpg
+
+# large datasets / clips — local only (break git HTTP push)
+images/bird_dataset/
+images/zambia_birds/
+images/cifar10/
+images/street_clip.mp4
+images/leaf_dataset/
+prac7/eval_data/
+prac7/apk/
+prac7/weights/
+*.mp4

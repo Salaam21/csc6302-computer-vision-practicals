@@ -1,0 +1,54 @@
+name: ci-cd
+on:
+  push:
+    branches: [main, master, prac7-road-transport-vehicle-counting]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: prac7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt ruff pytest
+      - name: Lint
+        run: ruff check app.py run_prac7.py eval_heldout.py tests
+      - name: Tests
+        run: pytest -q
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push Gradio app to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "HF_TOKEN secret not set — skip deploy (document PRO / free-tier limits in README)."
+            exit 0
+          fi
+          # Space must already exist (or account must allow Gradio Spaces).
+          git config --global user.email "ci@users.noreply.github.com"
+          git config --global user.name "github-actions"
+          rm -rf /tmp/hf-space && mkdir -p /tmp/hf-space
+          cp prac7/app.py /tmp/hf-space/app.py
+          cp prac7/requirements.txt /tmp/hf-space/requirements.txt
+          printf '%s\n' '---' 'title: CSC6302 Capstone Vehicle Counting' 'sdk: gradio' 'app_file: app.py' '---' '' '# Capstone' > /tmp/hf-space/README.md
+          cd /tmp/hf-space
+          git init
+          git add .
+          git commit -m "deploy capstone"
+          git push --force "https://user:${HF_TOKEN}@huggingface.co/spaces/Salaam21/csc6302-capstone-SINYANI" main

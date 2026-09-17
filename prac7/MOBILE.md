@@ -1,18 +1,19 @@
-# Mobile companion — Blindspot
+# Allan's Car Counter — mobile companion (separate from Blindspot)
 
-Repo: https://github.com/Salaam21/blindspot  
+**App:** Allan's Car Counter (Flutter)  
+**Folder:** `allans-car-counter/` (sibling of this practicals repo)  
+**Git:** its own repository — not inside Blindspot  
 
-Branch used for this capstone: **`vehicle-counting`**
+| | |
+|--|--|
+| Package | `com.allans.car_counter` |
+| Model | SSD MobileNet v1 TFLite on-device |
+| Classes | bicycle, car, motorcycle, bus, truck |
 
-## What it already had
-- Android (Kotlin) camera app
-- On-device **SSD MobileNet v1** TFLite model (`app/src/main/ml/ssd_mobilenet_v1_1_metadata_1.tflite`)
-- COCO labels including `car`, `bus`, `truck`, `motorcycle`, `bicycle`
+## Install APK
 
-## What the vehicle-counting branch changes
-- Filters detections to **road vehicles only**
-- Shows a live **count summary** on screen
-- Speaks counts with TTS (e.g. “2 cars, 1 truck”)
+`APK_FOR_PHONE/Allans_Car_Counter.apk` or `prac7/apk/Allans_Car_Counter.apk`
 
-## Coursework Gradio side
-`prac7/app.py` mirrors the same problem on a laptop with **YOLOv8n** so markers can try uploads without an Android build.
+## Blindspot
+
+Blindspot remains a **separate** accessibility project on `main`. Do not put vehicle-counting into Blindspot.

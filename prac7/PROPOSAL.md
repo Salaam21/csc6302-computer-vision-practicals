@@ -2,7 +2,8 @@
 
 **Team:** Munyeme Sinyani  
 **Coursework Gradio repo folder:** `prac7/` in `csc6302-computer-vision-practicals`  
-**Mobile app repo:** [https://github.com/Salaam21/blindspot](https://github.com/Salaam21/blindspot) (branch `vehicle-counting`)
+**Mobile app (separate repo/folder):** `allans-car-counter` — **Allan's Car Counter** (Flutter + on-device TFLite)  
+**Blindspot:** left alone as its own accessibility project (not this capstone app)
 
 ## Problem statement
 Road agencies and students need a **phone-first / laptop demo** that:
@@ -13,25 +14,27 @@ Wrong counts must not be treated as official traffic stats. Pothole output is a 
 
 ## Dataset / demo media plan
 - Roadside still: `images/street.jpg` for counting demos and report figures.
-- Optional: short roadside clips on phone via Blindspot live camera.
-- Held-out idea (if expanding): labelled Lusaka roadside frames; report precision/recall per class.
+- Optional: short roadside clips on phone via Allan's Car Counter live camera.
+- Held-out: labelled / synthetic scenes via `prac7/eval_heldout.py` (MAE on totals).
 
 ## Model plan
 | Surface | Model | Role |
 |---------|-------|------|
-| Gradio coursework demo | YOLOv8n (Ultralytics; auto-download / `prac7/weights/`) | Vehicle detect + count + classify |
-| Phone app (Blindspot) | SSD MobileNet v1 TFLite already in `app/src/main/ml/` | On-device detect; UI filtered to vehicles + live count |
-| Pothole tab | Classical OpenCV dark-blob heuristic on lower ROI | Severity: low / medium / high |
+| Gradio / Streamlit coursework demo | YOLOv8n (Ultralytics) | Vehicle detect + count + classify |
+| Phone — Allan's Car Counter | SSD MobileNet v1 TFLite | On-device detect; live count UI |
+| Pothole tab | Classical OpenCV dark-blob heuristic | Severity: low / medium / high |
 
 ## Team split
 | Person | Owns |
 |--------|------|
-| Munyeme Sinyani | Blindspot vehicle-counting branch, Gradio app, tests, report |
-| Partner (TBA) | Extra roadside data, HF Space deploy, metrics notebook |
+| Munyeme Sinyani | Allan's Car Counter, Gradio/Streamlit app, tests, CI, report |
+| Partner (TBA) | Extra Lusaka roadside labels, host unlock, seminar co-demo |
+
+**Note:** Brief prefers teams of two. Ready for a second surname in `csc6302-capstone-SINYANI-<PARTNER>`.
 
 ## Risks
 - Double-counting the same vehicle across frames if we do naive per-frame sums on video.
-- Night / rain / glare kills both SSD and YOLO confidence — confidence gate + “unsure / blurry” paths.
+- Night / rain / glare kills confidence — confidence gate + “unsure / blurry” paths.
 - Pothole heuristic confuses shadows and wet patches — always shown with a disclaimer.
 
 ## Ethics
