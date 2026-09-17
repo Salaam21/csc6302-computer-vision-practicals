@@ -1,5 +1,5 @@
-# Streamlit Cloud (CPU). Prefer Python 3.11 or 3.12 in Advanced settings — not 3.14.
-# ultralytics may pull opencv-python; pin headless and install apt libs via packages.txt.
+# Streamlit Cloud: set Python 3.11 or 3.12 in Advanced settings (not 3.14).
+# ultralytics may install opencv-python; packages.txt installs libgl1 for that.
 opencv-python-headless==4.10.0.84
 numpy>=1.24,<2.3
 Pillow>=10.0

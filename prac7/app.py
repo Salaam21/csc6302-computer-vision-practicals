@@ -176,30 +176,70 @@ def count_vehicles(img: Image.Image, conf_gate: float = 0.35):
     return msg, best_counts, annotated, DISCLAIMER
 
 
+def _box_blur_gray(gray: np.ndarray, k: int = 5) -> np.ndarray:
+    """Simple box blur (odd k) — avoids OpenCV on Streamlit Cloud."""
+    k = max(1, int(k) | 1)
+    pad = k // 2
+    g = gray.astype(np.float32)
+    p = np.pad(g, pad, mode="edge")
+    integral = np.pad(p, ((1, 0), (1, 0)), mode="constant").cumsum(0).cumsum(1)
+    s = (
+        integral[k:, k:]
+        - integral[:-k, k:]
+        - integral[k:, :-k]
+        + integral[:-k, :-k]
+    )
+    return (s / (k * k)).astype(np.uint8)
+
+
+def _count_dark_blobs(mask: np.ndarray, min_area: float) -> int:
+    """4-connected component count above min_area (numpy only)."""
+    h, w = mask.shape
+    visited = np.zeros_like(mask, dtype=bool)
+    n = 0
+    for y in range(h):
+        for x in range(w):
+            if not mask[y, x] or visited[y, x]:
+                continue
+            stack = [(y, x)]
+            visited[y, x] = True
+            area = 0
+            while stack:
+                cy, cx = stack.pop()
+                area += 1
+                for ny, nx in ((cy - 1, cx), (cy + 1, cx), (cy, cx - 1), (cy, cx + 1)):
+                    if 0 <= ny < h and 0 <= nx < w and mask[ny, nx] and not visited[ny, nx]:
+                        visited[ny, nx] = True
+                        stack.append((ny, nx))
+            if area > min_area:
+                n += 1
+    return n
+
+
 def rate_pothole(img: Image.Image):
     """
     Lightweight dashcam heuristic (not a trained pothole detector).
     Looks for dark irregular patches on a road-like lower region.
+    Numpy-only so Streamlit Cloud does not need GUI OpenCV here.
     """
-    import cv2  # lazy: avoid import-time libGL failure on Streamlit Cloud
-
     if img is None:
         return "No image", {}, None, DISCLAIMER
     rgb = orient_frame(img)
     arr = np.asarray(rgb)
     h, _w = arr.shape[:2]
     roi = arr[int(h * 0.45) :, :, :]
-    gray = cv2.cvtColor(roi, cv2.COLOR_RGB2GRAY)
-    blur = cv2.GaussianBlur(gray, (5, 5), 0)
-    # dark patches relative to road
+    gray = (0.299 * roi[:, :, 0] + 0.587 * roi[:, :, 1] + 0.114 * roi[:, :, 2]).astype(np.uint8)
+    blur = _box_blur_gray(gray, 5)
     thr = max(40, int(np.percentile(blur, 25)))
-    mask = (blur < thr).astype(np.uint8) * 255
-    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
-    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
-    frac = float(mask.mean() / 255.0)
-    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    big = [c for c in contours if cv2.contourArea(c) > 0.002 * mask.size]
-    n_blobs = len(big)
+    mask = blur < thr
+    # light open/close via neighbour vote
+    neigh = np.zeros_like(mask, dtype=np.uint8)
+    for dy in (-1, 0, 1):
+        for dx in (-1, 0, 1):
+            neigh += np.pad(mask, 1, mode="edge")[1 + dy : 1 + dy + mask.shape[0], 1 + dx : 1 + dx + mask.shape[1]]
+    mask = neigh >= 5
+    frac = float(mask.mean())
+    n_blobs = _count_dark_blobs(mask, min_area=0.002 * mask.size)
 
     if frac < 0.02 and n_blobs == 0:
         level, advice = "low", "Little dark-patch evidence in the lower frame."
@@ -210,8 +250,8 @@ def rate_pothole(img: Image.Image):
 
     vis = roi.copy()
     overlay = vis.copy()
-    overlay[mask > 0] = (220, 60, 60)
-    vis = cv2.addWeighted(vis, 0.65, overlay, 0.35, 0)
+    overlay[mask] = (220, 60, 60)
+    vis = (0.65 * vis + 0.35 * overlay).astype(np.uint8)
     full = arr.copy()
     full[int(h * 0.45) :, :, :] = vis
     out = Image.fromarray(full)
