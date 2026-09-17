@@ -1,2 +1,7 @@
-checkerboard: harris=188 shi=70 fast=0
-natural: harris=771 shi=200 fast=7466
+image,detector,count,ms
+checkerboard,harris,188,35.39
+checkerboard,shi-tomasi,70,3.87
+checkerboard,fast,190,0.21
+natural,harris,1177,150.08
+natural,shi-tomasi,500,33.28
+natural,fast,12897,3.04

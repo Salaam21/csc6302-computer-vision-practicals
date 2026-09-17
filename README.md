@@ -7,11 +7,13 @@ My code, photos, figures and reports for practicals 1 through 7.
 ## How I set up
 
 ```bash
-cd csc6302-practicals
+cd csc6302-computer-vision-practicals
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 ```
+
+GitHub repo: `Salaam21/csc6302-computer-vision-practicals` · branch for this pack: `computer-vision-practicals`.
 
 Photos are in `images/`.
 

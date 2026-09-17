@@ -1,1 +1,4 @@
-Nearer objects should look brighter (larger disparity). My stereo pair is roughly rectified; a proper rig would improve alignment.
+Nearer objects → larger disparity → brighter in the normalised map.
+mean_disp_left_third=12.00 mean_disp_right_third=12.00
+Larger numDisparities searches farther matches (handles closer objects / bigger baseline) but costs more and can add noise. Larger blockSize smooths the map but melts fine edges.
+My pair is a rough side-shift (or published-style pair), not a calibrated stereo rig — imperfect rectification causes streaking / holes. A proper rig would fix epipolar alignment so matching stays on the same scanline.

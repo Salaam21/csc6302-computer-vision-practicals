@@ -1,3 +1,4 @@
-ratio=0.6: matches=338
-ratio=0.75: matches=387
-ratio=0.9: matches=549
+ratio=0.6: matches=193
+ratio=0.75: matches=218
+ratio=0.9: matches=404
+matcher=SIFT+BF+Lowe

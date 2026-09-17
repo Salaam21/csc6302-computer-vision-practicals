@@ -1,0 +1,2 @@
+Adaptive wins when lighting ramps across the page: a single threshold cannot mark dark-side ink and bright-side ink at once. Otsu picks one global cut; fixed is worse if my guess is off. Adaptive windows follow local contrast, so ink stays foreground under the ramp.
+fixed_threshold=90

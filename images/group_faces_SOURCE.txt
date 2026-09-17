@@ -1,0 +1,2 @@
+﻿Consented group photo (same as group.jpg). Used for Haar + YOLO face demos in Practical 3.
+

@@ -1,0 +1,519 @@
+{
+  "n_labelled": 34,
+  "mae_vehicle_count": 2.382,
+  "frac_abs_err_le_1": 0.324,
+  "conf_gate": 0.35,
+  "note": "Synthetic sprites are car-like drawings; YOLO may under-count stylised art or mislabel as truck. Real frames use my manual totals. Metric = MAE on total vehicles.",
+  "per_image": [
+    {
+      "path": "syn_00.jpg",
+      "kind": "synthetic",
+      "gt_total": 1,
+      "pred_total": 0,
+      "abs_err": 1,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_01.jpg",
+      "kind": "synthetic",
+      "gt_total": 3,
+      "pred_total": 0,
+      "abs_err": 3,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_02.jpg",
+      "kind": "synthetic",
+      "gt_total": 1,
+      "pred_total": 0,
+      "abs_err": 1,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_03.jpg",
+      "kind": "synthetic",
+      "gt_total": 4,
+      "pred_total": 0,
+      "abs_err": 4,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_04.jpg",
+      "kind": "synthetic",
+      "gt_total": 2,
+      "pred_total": 0,
+      "abs_err": 2,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_05.jpg",
+      "kind": "synthetic",
+      "gt_total": 4,
+      "pred_total": 0,
+      "abs_err": 4,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_06.jpg",
+      "kind": "synthetic",
+      "gt_total": 1,
+      "pred_total": 0,
+      "abs_err": 1,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_07.jpg",
+      "kind": "synthetic",
+      "gt_total": 2,
+      "pred_total": 0,
+      "abs_err": 2,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_08.jpg",
+      "kind": "synthetic",
+      "gt_total": 1,
+      "pred_total": 0,
+      "abs_err": 1,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_09.jpg",
+      "kind": "synthetic",
+      "gt_total": 4,
+      "pred_total": 0,
+      "abs_err": 4,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_10.jpg",
+      "kind": "synthetic",
+      "gt_total": 2,
+      "pred_total": 0,
+      "abs_err": 2,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_11.jpg",
+      "kind": "synthetic",
+      "gt_total": 4,
+      "pred_total": 0,
+      "abs_err": 4,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_12.jpg",
+      "kind": "synthetic",
+      "gt_total": 1,
+      "pred_total": 0,
+      "abs_err": 1,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_13.jpg",
+      "kind": "synthetic",
+      "gt_total": 4,
+      "pred_total": 0,
+      "abs_err": 4,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_14.jpg",
+      "kind": "synthetic",
+      "gt_total": 2,
+      "pred_total": 0,
+      "abs_err": 2,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_15.jpg",
+      "kind": "synthetic",
+      "gt_total": 4,
+      "pred_total": 0,
+      "abs_err": 4,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_16.jpg",
+      "kind": "synthetic",
+      "gt_total": 3,
+      "pred_total": 0,
+      "abs_err": 3,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_17.jpg",
+      "kind": "synthetic",
+      "gt_total": 1,
+      "pred_total": 0,
+      "abs_err": 1,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_18.jpg",
+      "kind": "synthetic",
+      "gt_total": 2,
+      "pred_total": 0,
+      "abs_err": 2,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_19.jpg",
+      "kind": "synthetic",
+      "gt_total": 2,
+      "pred_total": 0,
+      "abs_err": 2,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_20.jpg",
+      "kind": "synthetic",
+      "gt_total": 1,
+      "pred_total": 0,
+      "abs_err": 1,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_21.jpg",
+      "kind": "synthetic",
+      "gt_total": 4,
+      "pred_total": 0,
+      "abs_err": 4,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_22.jpg",
+      "kind": "synthetic",
+      "gt_total": 4,
+      "pred_total": 0,
+      "abs_err": 4,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_23.jpg",
+      "kind": "synthetic",
+      "gt_total": 3,
+      "pred_total": 0,
+      "abs_err": 3,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_24.jpg",
+      "kind": "synthetic",
+      "gt_total": 3,
+      "pred_total": 0,
+      "abs_err": 3,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_25.jpg",
+      "kind": "synthetic",
+      "gt_total": 1,
+      "pred_total": 0,
+      "abs_err": 1,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_26.jpg",
+      "kind": "synthetic",
+      "gt_total": 3,
+      "pred_total": 0,
+      "abs_err": 3,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_27.jpg",
+      "kind": "synthetic",
+      "gt_total": 2,
+      "pred_total": 0,
+      "abs_err": 2,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "street.jpg",
+      "kind": "real_manual",
+      "gt_total": 2,
+      "pred_total": 1,
+      "abs_err": 1,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 1,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "Total vehicles: 1. Breakdown: 1 motorcycle."
+    },
+    {
+      "path": "syn_00.jpg",
+      "kind": "synthetic",
+      "gt_total": 1,
+      "pred_total": 0,
+      "abs_err": 1,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_01.jpg",
+      "kind": "synthetic",
+      "gt_total": 3,
+      "pred_total": 0,
+      "abs_err": 3,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_02.jpg",
+      "kind": "synthetic",
+      "gt_total": 1,
+      "pred_total": 0,
+      "abs_err": 1,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_03.jpg",
+      "kind": "synthetic",
+      "gt_total": 4,
+      "pred_total": 0,
+      "abs_err": 4,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    },
+    {
+      "path": "syn_04.jpg",
+      "kind": "synthetic",
+      "gt_total": 2,
+      "pred_total": 0,
+      "abs_err": 2,
+      "counts": {
+        "bicycle": 0,
+        "car": 0,
+        "motorcycle": 0,
+        "bus": 0,
+        "truck": 0
+      },
+      "message": "UNSURE: no vehicles above the confidence gate. Try a closer roadside frame, lower the gate slightly, or check lighting."
+    }
+  ]
+}

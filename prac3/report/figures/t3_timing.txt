@@ -1,2 +1,4 @@
-haar_ms_per_frame=33.85
-yolo_ms_per_frame=848.60
+haar_ms_per_frame=242.74
+yolo_ms_per_frame=149.37
+frames_timed=25
+note=Haar is face-only and usually faster on CPU; YOLO detects many classes and is heavier but more robust to pose/occlusion

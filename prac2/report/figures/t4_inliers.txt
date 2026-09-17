@@ -1,2 +1,3 @@
-ransac_inliers=386
-third_image_inliers=975
+pair_left_mid_ransac_inliers=199
+blend=feather_average_in_overlap
+third_image_ransac_inliers=436

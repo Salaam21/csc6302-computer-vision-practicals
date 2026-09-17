@@ -1,4 +1,5 @@
-degradation,inliers,survived
-blur,80,yes
-dark,351,yes
-jpeg10,255,yes
+degradation,good_matches,ransac_inliers,panorama_survived
+none,218,199,yes
+blur,43,20,yes
+dark60,65,51,yes
+jpeg10,92,78,yes

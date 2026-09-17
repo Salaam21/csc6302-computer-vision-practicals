@@ -1,2 +1,6 @@
-deeplab_ms=2960.1
-maskrcnn_ms=18129.0
+deeplab_street_ms=2063.1
+maskrcnn_street_ms=7185.3
+deeplab_group_ms=5664.9
+maskrcnn_group_ms=7445.4
+group_instances=24
+street_instances=1

@@ -1,3 +1,4 @@
-object_count=41
-structuring_element=3x3 ellipse
-note=earrings on white card; area filter drops text speckles
+object_count=15
+structuring_element=5x5 ellipse
+roi=cropped to jewellery band (excludes card text)
+pipeline=Otsu INV -> open -> close -> connectedComponents + area gate

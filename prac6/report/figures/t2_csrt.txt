@@ -1,1 +1,2 @@
-CSRT unavailable: module 'cv2' has no attribute 'TrackerCSRT_create'
+CSRT ok_updates=59/59 lost_at_frame=None
+During occlusion CSRT still returns ok=True but the box freezes on the pillar (around x~274 in my clip) - appearance tracking with no motion model. When the ball reappears at x~386, CSRT is stuck until/unless it re-locks. My KF coasts with constant velocity through the gap and meets the ball again.

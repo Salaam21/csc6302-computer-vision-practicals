@@ -1,0 +1,2 @@
+solvePnP recovers the camera pose (rvec, tvec) that maps known 3-D chessboard points into the observed 2-D corners. It needs the intrinsics (K, dist) from calibration first — otherwise the projection model is wrong and the cube drifts or warps instead of locking to the board.
+frames_with_pose=48/48

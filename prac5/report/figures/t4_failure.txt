@@ -1,0 +1,2 @@
+Failure case: my patterned tablecloth (chitenge-like geometry) is not a VOC/COCO class. DeepLab maps busy fabric to 'background' or nearby furniture/plant bits; Mask R-CNN may hallucinate a 'dining table' box but cannot name the print. Models only know labels they were trained on.
+failure_deeplab_ms=3800.7

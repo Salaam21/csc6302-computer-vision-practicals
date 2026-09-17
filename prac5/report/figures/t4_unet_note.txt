@@ -1,0 +1,1 @@
+DeepLabV3 is an encoder–decoder idea like U-Net: a ResNet encoder builds rich semantics at low resolution; ASPP + decoder upsample back to pixels. U-Net adds skip links from encoder to decoder; DeepLab leans on dilated convolutions / ASPP instead of dense skips, but the contract–expand story is the same lecture idea.

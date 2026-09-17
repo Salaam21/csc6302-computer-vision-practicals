@@ -1,0 +1,3 @@
+annotated_frames=100
+source=street_clip.mp4
+note=subsampled every 3rd frame from phone street clip

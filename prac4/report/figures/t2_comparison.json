@@ -1,17 +1,27 @@
-[
-  {
-    "method": "scratch_TinyCNN",
-    "test_acc": 1.0,
-    "seconds": 11.688802599965129
-  },
-  {
-    "method": "transfer_frozen",
-    "test_acc": 0.7037037037037037,
-    "seconds": 4.454119700007141
-  },
-  {
-    "method": "transfer_finetuned",
-    "test_acc": 1.0,
-    "seconds": 3.3597463000332937
-  }
-]
+{
+  "classes": [
+    "chicken",
+    "duck",
+    "goose",
+    "quail",
+    "turkey"
+  ],
+  "img_size": 160,
+  "rows": [
+    {
+      "method": "scratch_TinyCNN",
+      "test_acc": 0.391304347826087,
+      "seconds": 185.73029730000417
+    },
+    {
+      "method": "transfer_frozen",
+      "test_acc": 0.5869565217391305,
+      "seconds": 77.09915339999134
+    },
+    {
+      "method": "transfer_finetuned",
+      "test_acc": 0.6521739130434783,
+      "seconds": 59.94519160001073
+    }
+  ]
+}

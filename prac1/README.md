@@ -1,42 +1,55 @@
-# CSC 6302 Practical 1 - Seeing Like a Machine
+# CSC 6302 Practical 1 — Seeing Like a Machine
 
-**Student:** Munyeme Sinyani (SINYANI) - University of Zambia
+**Student:** Munyeme Sinyani (SINYANI) · Computer number **2025024319** · University of Zambia
 
-Pixels are numbers. I work through colour spaces, denoising, sharpening, edges, and morphology.
+Image-processing toolbox: colour spaces, noise/smoothing, unsharp masking, edges, morphology + counting, and a CLI.
 
-## Install
-
-From the repo root:
+## Install (fresh machine)
 
 ```bash
-cd csc6302-practicals
+cd csc6302-computer-vision-practicals
 python -m venv .venv
+# Windows:
 .venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r prac1/requirements.txt
 ```
 
-## Run
+Or from the repo root: `pip install -r requirements.txt` (includes these packages plus later practicals).
 
-Report figures:
+## My photos (`images/`)
+
+| File | Role |
+|------|------|
+| `colourful.jpg` | Task 1 colour spaces + HSV picker (lime-green bike); Task 3 sharpening |
+| `lowlight.jpg` | Low-light / noisy photo (shown in report) |
+| `coins.jpg` | Earrings on a card — Task 5 morphology + counting |
+| `clean_gray.png` | Regenerated from `colourful.jpg` by `run_prac1.py` for Tasks 2 & 4 |
+
+## Reproduce every result
 
 ```bash
+# All report figures + PSNR table + Sobel max-diff + object count
 python prac1/run_prac1.py
 ```
 
-Output folder: `prac1/report/figures/`.
+Outputs go to `prac1/report/figures/`.
 
-CLI on `process.py`:
+### CLI toolbox (`process.py`) — five operations
 
 ```bash
-python prac1/process.py --input images/colourful.jpg --op pick --output out.png
-python prac1/process.py --input images/clean_gray.png --op edges --output edges.png
-python prac1/process.py --input images/coins.jpg --op count --output count_vis.png
+python prac1/process.py --input images/colourful.jpg --op pick --output out_pick.png
+python prac1/process.py --input images/lowlight.jpg --op denoise --ksize 5 --output out_denoise.png
+python prac1/process.py --input images/colourful.jpg --op sharpen --amount 1.0 --output out_sharp.png
+python prac1/process.py --input images/clean_gray.png --op edges --output out_edges.png
+python prac1/process.py --input images/coins.jpg --op count --output out_count.png
 ```
 
-## Photos I used
+From-scratch implementations (brief rule): `psnr`, `conv2d`, `my_sobel` in `process.py`.
 
-My photos are in `images/`: `colourful.jpg` (outdoor scene), `lowlight.jpg` (darker indoor), `coins.jpg` (earrings for counting).
+## Report
 
-## AI Use
+`prac1/report/Practical1_Report.pdf`
 
-Composer helped me with ideas for how to structure `process.py` and `run_prac1.py`. From-scratch parts (`psnr`, `conv2d`, `my_sobel`) I can explain myself.
+## AI use
+
+Composer helped with script layout ideas. From-scratch PSNR/Sobel and the Task 6 reflection are mine to explain.

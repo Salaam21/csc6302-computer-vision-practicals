@@ -1,1 +1,2 @@
-max_abs_diff_normalised=0.382839
+max_abs_diff=0.000000e+00
+note=own Sobel vs cv2.Sobel magnitude; reflect pad matches OpenCV default

@@ -1,0 +1,6 @@
+test_acc=0.7594
+seconds=1968.8
+epochs=10
+overfit_hint_epoch=None
+top_confusions=[(np.int64(210), 'cat', 'dog'), (np.int64(147), 'dog', 'cat'), (np.int64(111), 'deer', 'horse'), (np.int64(105), 'frog', 'cat'), (np.int64(104), 'bird', 'dog')]
+note=Cats/dogs and automobile/truck pairs often confuse because of shared shapes/colours.

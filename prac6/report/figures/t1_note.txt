@@ -1,0 +1,1 @@
+LK assumes brightness constancy, spatial coherence, and small motion. A sudden lighting gain invents large false flow even with no camera motion — pixels change intensity without moving. Heavy blur also kills corner texture that Shi-Tomasi / LK need.

@@ -1,5 +1,5 @@
 method,iou
-fixed,0.8492
-otsu,0.9967
-adaptive_mean,0.1830
-adaptive_gaussian,0.0886
+fixed,0.1266
+otsu,0.0904
+adaptive_mean,0.1795
+adaptive_gaussian,0.1621

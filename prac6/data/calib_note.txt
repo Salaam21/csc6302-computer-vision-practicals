@@ -1,0 +1,5 @@
+pattern_inner_corners=(9, 6)
+sim_fx=520.0 sim_fy=520.0 image_size=640x480
+sim_dist=[-0.18, 0.05, 0.0, 0.0, 0.0]
+views_written=20
+Synthetic phone-like captures of a printed 9x6 board for this practical (physical print can replace these later; do not share identical intrinsics).

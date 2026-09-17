@@ -1,0 +1,1 @@
+GrabCut iterates a Gaussian Mixture Model (GMM) for foreground and background colours, then a graph-cut that labels each pixel. Extra iterations refine the GMMs; brush hints clamp some pixels as hard FG/BG.

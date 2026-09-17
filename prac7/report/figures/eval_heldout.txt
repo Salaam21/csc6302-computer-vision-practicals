@@ -1,0 +1,5 @@
+n_labelled=34
+mae_vehicle_count=2.382
+frac_abs_err_le_1=0.324
+conf_gate=0.35
+Synthetic sprites are car-like drawings; YOLO may under-count stylised art or mislabel as truck. Real frames use my manual totals. Metric = MAE on total vehicles.

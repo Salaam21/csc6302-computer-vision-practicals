@@ -1,0 +1,1 @@
+NMS keeps the highest-confidence box and suppresses overlapping lower-score boxes (IoU above threshold). Without it, one object gets many stacked detections.

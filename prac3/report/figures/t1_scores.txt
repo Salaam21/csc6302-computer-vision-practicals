@@ -1,2 +1,4 @@
 same_view=1.0000
-scaled_view=0.3378
+scaled_0.55x=0.7673
+rotated_25deg=0.6593
+note=NCC collapses under scale/rotation because the template must match pixel pattern size and orientation

@@ -1,0 +1,2 @@
+gt_face_boxes=4
+note=GT from liberal Haar (1.05,2) after IoU dedupe; eye count of clear frontal faces is similar

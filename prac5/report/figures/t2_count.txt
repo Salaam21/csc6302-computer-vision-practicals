@@ -1,1 +1,4 @@
-watershed_objects~=4
+manual_count=15
+watershed_markers=16
+watershed_labels=16
+note=Touching coins merge under connected components; distance peaks give one marker per coin when the peak threshold is tuned. Over-split happens if specular blobs create extra peaks; merges happen when two coins share one distance ridge below the sure-FG cut.
