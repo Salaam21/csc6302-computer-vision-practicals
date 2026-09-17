@@ -11,7 +11,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
@@ -182,6 +181,8 @@ def rate_pothole(img: Image.Image):
     Lightweight dashcam heuristic (not a trained pothole detector).
     Looks for dark irregular patches on a road-like lower region.
     """
+    import cv2  # lazy: avoid import-time libGL failure on Streamlit Cloud
+
     if img is None:
         return "No image", {}, None, DISCLAIMER
     rgb = orient_frame(img)
