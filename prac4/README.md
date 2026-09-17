@@ -35,15 +35,14 @@ python prac4/app.py                 # Task 4 local Gradio
 
 Report: `prac4/report/Practical4_Report.pdf`
 
-## Hugging Face Space
+## For markers — how to run
 
-I built `app.py` + `model.pt` and uploaded them to the model repo above.
+Preferred: local Gradio — `python prac4/app.py`  
+Weights / app also on Hugging Face model repo: https://huggingface.co/Salaam21/csc6302-prac4-SINYANI  
 
-I was **restricted** from creating the public **Gradio Space** because that hosting tier now requires **Hugging Face PRO** (API 402). Local Gradio and the model repo still work. If PRO unlocks: Space name `csc6302-prac4-SINYANI`.
+A public **Gradio Space** could not be created (Hugging Face returns **402 PRO required**). Please mark via local Gradio or the model repo above.
 
-### Inference speed
-
-On CPU, MobileNetV3-Small is about **0.1–0.5 s**/image after warm-up. For real deploy I would export ONNX, keep a warm host, and rate-limit.
+CPU inference (MobileNetV3-Small): about **0.1–0.5 s**/image after warm-up.
 
 ## AI use
 

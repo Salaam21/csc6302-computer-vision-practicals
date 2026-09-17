@@ -2,57 +2,61 @@
 
 **Student:** Munyeme Sinyani (SINYANI) · Computer number **2025024319** · University of Zambia  
 
-**Track:** vehicle counting and classification from roadside footage; pothole severity hint from dashcam images.
+**For markers:** how to review the capstone (vehicle counting + pothole severity hint).
 
-**Mobile app:** [Allan's Car Counter](../allans-car-counter) — Flutter, package `com.allans.car_counter` (separate from Blindspot)
+## Deployed web app (primary)
 
+**Live Streamlit URL:**  
+https://csc6302-computer-vision-practicalsgit-5wmff88oj3b8thqovqxukj.streamlit.app/
 
-**Suggested dedicated repo name (brief):** `csc6302-capstone-SINYANI` (currently lives as `prac7/` in the practicals pack).
+| | |
+|--|--|
+| GitHub | https://github.com/Salaam21/csc6302-computer-vision-practicals |
+| Branch | `prac7-road-transport-vehicle-counting` |
+| Entrypoint | `prac7/streamlit_app.py` |
 
-## Brief checklist (honest)
+Upload a roadside photo → vehicle counts; or a road-surface photo → pothole severity hint. First inference may take longer while YOLO weights load on CPU.
 
-| Requirement | Status |
-|-------------|--------|
-| R1 Vision core (YOLO / SSD / classical pothole) | Done |
-| R1 Held-out ≥30 with metric (count MAE) | Done — `python prac7/eval_heldout.py` |
-| R1 Optional VLM | Not wired (template text only) |
-| R2 Gradio upload → counts → disclaimer | Done |
-| R2 Graceful failure / UNSURE | Done |
-| R3 ≥5 pytest | Done (6+) |
-| R3 CI (ruff + pytest) | Done — `.github/workflows/ci-cd.yml` at **repo root** |
-| R3 CD auto-deploy to HF Space | Workflow ready; **HF Gradio Spaces need PRO** on this account (402) — run locally |
-| R3 Secrets out of repo | Done |
-| R4 Ethics page in report | Done |
-| Team of two + both in git log | **Gap** — solo / partner TBA |
-| Live public URL at marking | **Blocked by HF PRO** unless alternative host |
-| Report 6–8 pages | Rebuilt via `build_report.py` |
-| PROPOSAL.md Week-12 gate | Present |
+## Android APK (Allan's Car Counter)
 
-## Install
+Companion phone app (on-device TFLite). **Not** Blindspot.
+
+1. Copy `prac7/apk/Allans_Car_Counter.apk` to an Android phone (or use `APK_FOR_PHONE/Allans_Car_Counter.apk` in the school-stuff folder).
+2. On the phone: allow install from unknown sources if prompted.
+3. Open the APK and install **Allan's Car Counter** (`com.allans.car_counter`).
+4. Grant camera permission and point at vehicles to see live counts.
+
+Source: sibling folder `allans-car-counter/` (Flutter). Details: `prac7/MOBILE.md`.
+
+## Local review (optional)
 
 ```bash
 cd csc6302-computer-vision-practicals
 pip install -r prac7/requirements.txt
-```
-
-## Run
-
-```bash
 cd prac7
 pytest -q
 cd ..
 python prac7/run_prac7.py
 python prac7/eval_heldout.py
-python prac7/build_report.py
-python prac7/app.py
+python prac7/app.py              # Gradio local
+# or: streamlit run prac7/streamlit_app.py
 ```
 
-## CI/CD
+- Report: `prac7/report/Practical7_Capstone_Report.pdf`
+- Proposal: `prac7/PROPOSAL.md`
+- Held-out count metric: `python prac7/eval_heldout.py`
 
-- Workflow: `.github/workflows/ci-cd.yml`
-- Set GitHub secret `HF_TOKEN` to enable the deploy job (when Spaces are allowed).
-- Until then: local Gradio is the marker path; PRO restriction documented (same as Prac 4–5).
+## Brief coverage
+
+| Item | Where |
+|------|--------|
+| YOLO vehicle count + class | Streamlit / Gradio / APK |
+| Pothole severity hint | Streamlit / Gradio |
+| Held-out ≥30, count MAE | `eval_heldout.py` + report |
+| Tests + CI | `prac7/tests/`, `.github/workflows/ci-cd.yml` |
+| Ethics | Capstone report |
+| HF Gradio Space CD | Blocked by HF PRO (402); Streamlit used instead |
 
 ## AI use
 
-Composer helped with Gradio layout, eval harness, CI, and report scaffolding. Track choice, ethics, and disclaimers are mine.
+Composer helped with Gradio/Streamlit layout, eval harness, CI, and report scaffolding. Track choice, ethics, and disclaimers are the student’s.

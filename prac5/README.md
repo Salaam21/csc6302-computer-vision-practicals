@@ -47,15 +47,14 @@ Figures: `prac5/report/figures/` · Report: `prac5/report/Practical5_Report.pdf`
 
 IoU is implemented in `run_prac5.py` (`iou()`). Deep models download torchvision weights on first run (CPU: a few seconds per image).
 
-## Hugging Face Space (Task 5)
+## For markers — Gradio / Hugging Face
 
-App: upload + dropdown **Otsu / adaptive / watershed / DeepLabV3** → overlay (+ watershed count / DeepLab class legend). UI notes that DeepLab on free CPU takes a few seconds.
+Preferred: local Gradio — `python prac5/app.py`  
+(upload → Otsu / adaptive / watershed / DeepLabV3; DeepLab on CPU takes a few seconds)
 
-**Public app source (model repo):** https://huggingface.co/Salaam21/csc6302-prac5-SINYANI  
+App source also on: https://huggingface.co/Salaam21/csc6302-prac5-SINYANI  
 
-Creating a **Gradio Space** with this account returns **402 Payment Required** — Hugging Face now requires **PRO** for Gradio/Docker Spaces on free CPU (same restriction as Practical 4). Documented for markers: restricted by PRO. When PRO unlocks, Space name `csc6302-prac5-SINYANI` → https://huggingface.co/spaces/Salaam21/csc6302-prac5-SINYANI
-
-Local demo: `python prac5/app.py`
+A public **Gradio Space** could not be created (**402 PRO required**). Please mark via local Gradio.
 
 ## AI use
 
