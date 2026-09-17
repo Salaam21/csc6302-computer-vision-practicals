@@ -39,7 +39,6 @@ cd csc6302-computer-vision-practicals
 pip install -r prac5/requirements.txt
 python prac5/prepare_images.py
 python prac5/run_prac5.py
-python prac5/build_report.py
 python prac5/app.py
 ```
 

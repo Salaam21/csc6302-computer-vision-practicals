@@ -38,8 +38,7 @@ python prac6/task5_stereo.py
 # Or everything:
 python prac6/run_prac6.py
 
-# Report + captioned demo reel
-python prac6/build_report.py
+# Captioned demo reel
 python prac6/make_demo.py
 ```
 
